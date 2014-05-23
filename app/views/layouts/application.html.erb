@@ -2,26 +2,108 @@
 <html>
 <head>
   <title>Gambtree</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <noscript>
+    <link rel="stylesheet" href="assets/skel.css" />
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="assets/style-noscript.css" />
+  </noscript>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <div id="container">
-    <div id="user_nav">
-      <% if user_signed_in? %>
-        Signed in as <%= current_user.email %>. Not you?
-        <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-      <% else %>
-        <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
-      <% end %>
+<body class="index loading">
+  <!-- Header -->
+  <header id="header" class="alt">
+    <h1 id="logo"><a href="index.html">Gambtree <span>by Carlos Fernández</span></a></h1>
+    <nav id="nav">
+      <ul>
+        <li class="current"><a href="index.html">Welcome</a></li>
+        <li class="submenu">
+          <a href="">Layouts</a>
+          <ul>
+            <li><a href="left-sidebar.html">Left Sidebar</a></li>
+            <li><a href="right-sidebar.html">Right Sidebar</a></li>
+            <li><a href="no-sidebar.html">No Sidebar</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li class="submenu">
+              <a href="">Submenu</a>
+              <ul>
+                <li><a href="#">Dolore Sed</a></li>
+                <li><a href="#">Consequat</a></li>
+                <li><a href="#">Lorem Magna</a></li>
+                <li><a href="#">Sed Magna</a></li>
+                <li><a href="#">Ipsum Nisl</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#" class="button special">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- Banner -->   
+  <section id="banner">
+    
+    <!--
+      ".inner" is set up as an inline-block so it automatically expands
+      in both directions to fit whatever's inside it. This means it won't
+      automatically wrap lines, so be sure to use line breaks where
+      appropriate (<br />).
+    -->
+    <div class="inner">
+      
+      <header>
+        <h2>Gambtree</h2>
+      </header>
+      <p>This is <strong>Gambtree</strong>, a social<br />
+      online lottery game <br />
+      by <a href="http://html5up.net">Carlos Fernández</a>.</p>
+      <footer>
+        <ul class="buttons vertical">
+          <li><a href="#main" class="button fit scrolly">Tell Me More</a></li>
+        </ul>
+      </footer>
+   
     </div>
     
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, :id => "flash_#{name}" %>
-    <% end %>
+  </section>
+  
+  <!-- Main -->
+  <article id="main">
     
     <%= yield %>
-  </div>
+  
+  </article>
+  
+  <!-- CTA -->
+  <section id="cta">
+  
+    <header>
+      <h2>Ready to do <strong>something</strong>?</h2>
+      <p>Proin a ullamcorper elit, et sagittis turpis integer ut fermentum.</p>
+    </header>
+    <footer>
+      <ul class="buttons">
+        <li><a href="#" class="button special">Take My Money</a></li>
+        <li><a href="#" class="button">LOL Wut</a></li>
+      </ul>
+    </footer>
+  
+  </section>
+  
+  <!-- Footer -->
+  <footer id="footer">
+  
+    <ul class="icons">
+      <li><a href="#" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+      <li><a href="#" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+      <li><a href="#" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
+      <li><a href="#" class="icon circle fa-github"><span class="label">Github</span></a></li>
+      <li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
+    </ul>
+    
+    <span class="copyright">&copy; Gambtree. All rights reserved. Design: <a href="http://html5up.net">HTML5 UP</a>.</span>
+  
+  </footer>
 </body>
 </html>
