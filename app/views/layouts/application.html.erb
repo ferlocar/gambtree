@@ -8,40 +8,35 @@
     <link rel="stylesheet" href="assets/style-noscript.css" />
   </noscript>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <% if @is_home && !user_signed_in? %>
+  <%= javascript_include_tag '/assets/jquery.dropotron.min', 'data-turbolinks-track' => true %>
+  <% end %>
+  <%= javascript_include_tag '/assets/skel.min', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag '/assets/skel-layers.min', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag '/assets/init', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body class="index loading">
   <!-- Header -->
-  <header id="header" class="alt">
-    <h1 id="logo"><a href="index.html">Gambtree <span>by Carlos Fernández</span></a></h1>
+  <header id="header" <% if @is_home && !user_signed_in? %>class="alt"<%end%>>
+    <h1 id="logo"><a href="<%= root_path %>">Gambtree <span>by Carlos Fernández</span></a></h1>
     <nav id="nav">
       <ul>
-        <li class="current"><a href="index.html">Welcome</a></li>
-        <li class="submenu">
-          <a href="">Layouts</a>
-          <ul>
-            <li><a href="left-sidebar.html">Left Sidebar</a></li>
-            <li><a href="right-sidebar.html">Right Sidebar</a></li>
-            <li><a href="no-sidebar.html">No Sidebar</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li class="submenu">
-              <a href="">Submenu</a>
-              <ul>
-                <li><a href="#">Dolore Sed</a></li>
-                <li><a href="#">Consequat</a></li>
-                <li><a href="#">Lorem Magna</a></li>
-                <li><a href="#">Sed Magna</a></li>
-                <li><a href="#">Ipsum Nisl</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#" class="button special">Sign Up</a></li>
+        <li class="current"><a href="<%= root_path %>">Welcome<%= ", #{current_user.username}" if user_signed_in? %></a></li>
+        <% if user_signed_in? %>
+          <li><%= link_to "Edit account", edit_user_registration_path %></li>
+          <li><%= link_to "Sign out", destroy_user_session_path, {method: :delete, class: "button special"} %></li>
+        <% else %>
+          <li><%= link_to "Sign In", new_user_session_path, class: "button special" %></li>
+          <li><%= link_to "Create Account", new_user_registration_path, class: "button special" %></li>
+        <% end %>
       </ul>
     </nav>
   </header>
   
   <!-- Banner -->   
+  <% if @is_home %>
   <section id="banner">
     
     <!--
@@ -67,15 +62,32 @@
     </div>
     
   </section>
+  <% end %>
   
   <!-- Main -->
   <article id="main">
     
-    <%= yield %>
-  
+    <% unless @is_home %>
+    
+    <section class="wrapper style3 container special-alt">
+      <div class="row">
+        <div class="12u">
+          <% flash.each do |name, msg| %>
+            <%= content_tag :div, msg, :id => "flash_#{name}" %>
+          <% end %>
+          <%= yield %>
+        </div>
+      </div>
+    </section> 
+    
+    <% else %>
+      <%= yield %>
+    <%end%>
+    
   </article>
   
   <!-- CTA -->
+  <% if @is_home %>
   <section id="cta">
   
     <header>
@@ -90,6 +102,7 @@
     </footer>
   
   </section>
+  <% end %>
   
   <!-- Footer -->
   <footer id="footer">
