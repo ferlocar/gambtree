@@ -13,7 +13,10 @@
 	}
 
 /* Container */
-
+#player_info {
+	vertical-align: middle;
+	color: red;
+}
 	body {
 		/* min-width: (containers) */
 		min-width: 1200px;

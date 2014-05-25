@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Gambtree</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <noscript>
     <link rel="stylesheet" href="assets/skel.css" />
     <link rel="stylesheet" href="assets/style.css" />
@@ -25,6 +26,16 @@
       <ul>
         <li class="current"><a href="<%= root_path %>">Welcome<%= ", #{current_user.username}" if user_signed_in? %></a></li>
         <% if user_signed_in? %>
+          <li>
+              <a href="#" onclick="return false;" id="pepe" style="cursor: default">
+                <%= image_tag "gambcoin_icon.png", size: "24x24", title: "Gambcoins", alt: "Gambcoins", class: "player_info" %>
+                <span class="player_info_text">>Gambcoins:</span>
+                <span class="player_info"><%= current_user.coins %></span>
+                <%= image_tag "gambseed_icon.png", size: "29x24", title: "Gambseeds", alt: "Gambseeds", class: "player_info" %>
+                <span class="player_info_text">>Gambseeds:</span>
+                <span class="player_info"><%= current_user.seeds%></span>
+              </a>
+          </li>
           <li><%= link_to "Edit account", edit_user_registration_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, {method: :delete, class: "button special"} %></li>
         <% else %>
