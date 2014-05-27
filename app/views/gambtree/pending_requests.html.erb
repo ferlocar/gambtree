@@ -1,0 +1,26 @@
+<% requests = current_user.pending_requests%>
+<% request_num = requests.count%>
+<h2>You have <%= request_num %> pending request<%= 's' if request_num != 1%>.</h2>
+<% if request_num > 0 %>
+<p>You have a request from <b><%= requests.first.user.full_name%></b>.</p>
+<% end %>
+
+<p>Here is your Gambtree:</p>
+<script>
+  var leaves = [
+      <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]}}"}.join(", ") %>
+  ];
+</script>
+<%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
+<canvas id="gambtree">
+</canvas>
+
+<% if request_num > 0 %>
+<p>To which branch do you wish to add your new leaf?</p>
+<div>
+  <ul class="buttons">
+    <li><%= link_to "Left branch", gambtree_add_leaf_to_branch_path(request_id: requests.first.id, to_left: "true"), class: "button", method: :post %></li>
+    <li><%= link_to "Right branch", gambtree_add_leaf_to_branch_path(request_id: requests.first.id, to_left: "false"), class: "button", method: :post %></li>
+  </ul>
+</div>
+<% end %>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'gambtree/pending_requests'
+  post 'gambtree/add_leaf_to_branch'
+
   devise_for :users
   get 'sign_in/index'
 

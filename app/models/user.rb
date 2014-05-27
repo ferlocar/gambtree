@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   belongs_to :parent, :class_name => 'User'
   belongs_to :left_branch, :class_name => 'User'
   belongs_to :right_branch, :class_name => 'User'
+  has_one :sent_request, :class_name => 'JoinRequest', :foreign_key => "user_id"
+  has_many :received_requests, :class_name => 'JoinRequest', :foreign_key => "receiver_id"
   
   after_create :insert_in_gambtree
   
@@ -26,15 +28,8 @@ class User < ActiveRecord::Base
     1 + (left_branch ? left_branch.leaf_count : 0) + (right_branch ? right_branch.leaf_count : 0)
   end
   
-  protected
-  
-  def insert_in_gambtree
-    if User.trunk
-      User.trunk.insert_leaf self
-    else
-      self.is_trunk = true
-    end
-    self.save
+  def pending_requests
+    received_requests.where(:resolved => false)
   end
   
   def insert_leaf new_leaf
@@ -46,6 +41,22 @@ class User < ActiveRecord::Base
       attach_leaf_to_me new_leaf
     else
       smaller_branch.insert_leaf new_leaf
+    end
+  end
+  
+  protected
+  
+  def insert_in_gambtree
+    if User.trunk
+      if recommender
+        JoinRequest.create user: self, receiver: recommender, resolved: false
+        puts sent_request.id
+      else
+        User.trunk.insert_leaf self
+      end
+    else
+      self.is_trunk = true
+      self.save
     end
   end
   

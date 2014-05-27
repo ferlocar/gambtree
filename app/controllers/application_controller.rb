@@ -14,6 +14,16 @@ class ApplicationController < ActionController::Base
         |u| u.permit(registration_params << :current_password)
       }
     elsif params[:action] == 'create'
+      if params.has_key?(:user) && !params[:user][:recommender].blank?
+        recommender = User.find_by username: params[:user][:recommender]
+        if recommender.nil?
+          flash[:error] = "Recommender '#{params[:user][:recommender]}' does not exist."
+          redirect_to new_user_registration_path
+        else
+          params[:user][:recommender_id] = recommender.id
+          registration_params << :recommender_id
+        end
+      end
       devise_parameter_sanitizer.for(:sign_up) { 
         |u| u.permit(registration_params) 
       }

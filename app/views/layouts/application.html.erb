@@ -9,12 +9,6 @@
     <link rel="stylesheet" href="assets/style-noscript.css" />
   </noscript>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <% if @is_home && !user_signed_in? %>
-  <%= javascript_include_tag '/assets/jquery.dropotron.min', 'data-turbolinks-track' => true %>
-  <% end %>
-  <%= javascript_include_tag '/assets/skel.min', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag '/assets/skel-layers.min', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag '/assets/init', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag 'favicon.ico' %>
 </head>
@@ -27,13 +21,21 @@
         <li class="current"><a href="<%= root_path %>">Welcome<%= ", #{current_user.username}" if user_signed_in? %></a></li>
         <% if user_signed_in? %>
           <li>
-              <a href="#" onclick="return false;" id="pepe" style="cursor: default">
+              <a href="#" onclick="return false;" style="cursor: default">
                 <%= image_tag "gambcoin_icon.png", size: "24x24", title: "Gambcoins", alt: "Gambcoins", class: "player_info" %>
                 <span class="player_info_text">>Gambcoins:</span>
                 <span class="player_info"><%= current_user.coins %></span>
                 <%= image_tag "gambseed_icon.png", size: "29x24", title: "Gambseeds", alt: "Gambseeds", class: "player_info" %>
                 <span class="player_info_text">>Gambseeds:</span>
                 <span class="player_info"><%= current_user.seeds%></span>
+              </a>
+          </li>
+          <li>
+              <% leaves_to_add = current_user.pending_requests.count %>
+              <a href="<%= gambtree_pending_requests_path%>">
+                <%= image_tag "new_leaves.png", size: "24x24", title: "New leaves to add", alt: "New leaves to add", class: "player_info" %>
+                <span class="player_info_text">New leaves:</span>
+                <span class="player_info"><%= leaves_to_add %></span>
               </a>
           </li>
           <li><%= link_to "Edit account", edit_user_registration_path %></li>

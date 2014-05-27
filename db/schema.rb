@@ -11,7 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140525052823) do
+ActiveRecord::Schema.define(version: 20140527184145) do
+
+  create_table "gambgames", force: true do |t|
+    t.datetime "date_finished"
+    t.float    "prize_paid"
+    t.integer  "players_number"
+    t.integer  "awards_won"
+    t.integer  "winner_gambfruit_id"
+    t.boolean  "ongoing"
+    t.float    "current_prize"
+    t.integer  "current_players_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "gambgames", ["winner_gambfruit_id"], name: "index_gambgames_on_winner_gambfruit_id", using: :btree
+
+  create_table "join_requests", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "receiver_id"
+    t.boolean  "resolved"
+    t.datetime "date_resolved"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "join_requests", ["receiver_id"], name: "index_join_requests_on_receiver_id", using: :btree
+  add_index "join_requests", ["user_id"], name: "index_join_requests_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "full_name"

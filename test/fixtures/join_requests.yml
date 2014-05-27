@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  date_issued: 2014-05-26 19:54:24
+  receiver_id: 
+  resolved: false
+  date_resolved: 2014-05-26 19:54:24
+
+two:
+  user_id: 
+  date_issued: 2014-05-26 19:54:24
+  receiver_id: 
+  resolved: false
+  date_resolved: 2014-05-26 19:54:24
