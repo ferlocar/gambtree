@@ -1,0 +1,59 @@
+.hidden_option {
+  	display: none;
+}
+
+.option_image {
+	height: 70px;
+	width: 70px;
+}
+
+.gambfruit_image {
+	height: 150px;
+	width: 150px;
+}
+
+.option_button {
+	height: 30px;
+	width: 30px;
+	vertical-align: top;
+}
+
+.gambfruit_option {
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.gambfruit_options {
+	text-align: center;
+}
+
+.gambfruit_number {
+	position: relative;
+	top: -70px;
+	height: 40px;
+	width: 30px;
+}
+
+.gambfruit_units {
+	right: -8px;
+}
+
+.gambfruit_tens {
+	right: -22px;
+}
+
+#gambfruit{
+	text-align: center;
+}
+#seal_container{
+	text-align: center;
+}
+#gambfruit_seal {
+	height: 80px;
+	width: 80px;
+	position: relative;
+	top: -50px;
+	right: -90px;
+}

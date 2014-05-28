@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'gambgame/play'
+
   get 'gambtree/pending_requests'
   post 'gambtree/add_leaf_to_branch'
 

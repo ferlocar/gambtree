@@ -1,4 +1,6 @@
 class GambtreeController < ApplicationController
+  before_action :authenticate_user!
+  
   def pending_requests
     @gambtree = get_gambtree current_user
   end

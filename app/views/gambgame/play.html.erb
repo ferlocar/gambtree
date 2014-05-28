@@ -1,0 +1,60 @@
+<%= javascript_include_tag '/assets/gambgame', 'data-turbolinks-track' => true %>
+<h2>Choose you Gambfruit!</h2>
+<p>Select a type of fruit, a number, and a color for your Gambfruit:</p>
+
+<div class="gambfruit_options">
+  
+  <div class="gambfruit_option">
+
+    <button id="decFruit" class="option_button">&laquo;</button>
+    <% fruits = %w(apple banana cherry grapes strawberry)%>
+    <% fruits.each do |fruit| %>
+      <%= image_tag "gambfruits/#{fruit}/#{fruit}_colored.png", title: fruit.capitalize, alt: fruit.capitalize, id: fruit, class: "option_image #{'hidden_option' unless fruit == 'apple'}" %>
+    <% end %>
+    <button id="incFruit" class="option_button">&raquo;</button>
+    
+  </div>
+  
+  <div class="gambfruit_option">
+  
+    <button id="decNumber" class="option_button">&laquo;</button>
+    <% 2.times do |unit| %>
+      <% unit_type = unit == 0 ? "tens" : "units" %>
+      <% 10.times do |num| %>
+        <%= image_tag "gambfruits/numbers/#{num}.png", title: "Gambfruit number", alt: "Gambfruit number", class: "#{unit_type}_#{num} option_image #{'hidden_option' unless num == 0}"%>
+      <% end %>
+    <% end %>
+    <button id="incNumber" class="option_button">&raquo;</button>
+
+  </div>
+  
+  <div class="gambfruit_option">
+  
+    <button id="decColor" class="option_button">&laquo;</button>
+    <% colors = %w(red green yellow purple blue)%>
+    <% colors.each do |color| %>
+      <%= image_tag "gambfruits/brush/#{color}.png", title: color.capitalize, alt: color.capitalize, id: color, class: "option_image #{'hidden_option' unless color == 'red'}" %>
+    <% end %>
+    <button id="incColor" class="option_button">&raquo;</button>
+  
+  </div>
+
+</div>
+
+<div id="gambfruit">
+<% fruits.each do |fruit| %>
+  <% colors.each do |color| %>
+    <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image #{'hidden_option' unless color == 'red' && fruit == 'apple'}"%>
+  <% end %>
+<% end %>
+</div>
+
+<div id="seal_container">
+  <%= image_tag "gambfruits/numbers/seal.png", id: "gambfruit_seal"%>
+  <% 2.times do |unit| %>
+    <% unit_type = unit == 0 ? "tens" : "units" %>
+    <% 10.times do |num| %>
+      <%= image_tag "gambfruits/numbers/#{num}.png", title: "Your Gambfruit", alt: "Your Gambfruit", class: "#{unit_type}_#{num} gambfruit_number gambfruit_#{unit_type} #{'hidden_option' unless num == 0}"%>
+    <% end %>
+  <% end %>
+</div>
