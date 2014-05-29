@@ -61,6 +61,9 @@ window.onload = function(){
 		currentGambfruit.addClass("hidden_option");
 		currentGambfruit = $("#"+availableColors[colorIndex]+"_"+availableFruits[fruitIndex]);
 		currentGambfruit.removeClass("hidden_option");
+		$("#fruit_param").val(availableFruits[fruitIndex]);
+		$("#color_param").val(availableColors[colorIndex]);
+		$("#number_param").val(currentNumber);
 	}
 	 
 	$( "#decFruit" ).click(function() {

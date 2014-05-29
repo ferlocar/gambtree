@@ -22,6 +22,15 @@
         <% if user_signed_in? %>
           <li>
               <a href="#" onclick="return false;" style="cursor: default">
+                <%= image_tag "players_icon.png", size: "35x30", title: "Gambgame players", alt: "Gambgame players", class: "player_info" %>
+                <span class="player_info_text">>Gambgame players:</span>
+                <span class="player_info"><%= Gambgame.current.current_players_number %></span>
+                <%= image_tag "prize_icon.png", size: "24x24", title: "Gambgame prize", alt: "Gambgame prize", class: "player_info" %>
+                <span class="player_info_text">>Gambgame prize:</span>
+                <span class="player_info"><%= Gambgame.current.current_prize %></span>
+                <%= image_tag "gambfruit_icon.png", size: "41x26", title: "Your Gambfruits", alt: "Your Gambfruits", class: "player_info" %>
+                <span class="player_info_text">>Your Gambfruits:</span>
+                <span class="player_info"><%= current_user.participating_gambfruits.length %></span>
                 <%= image_tag "gambcoin_icon.png", size: "24x24", title: "Gambcoins", alt: "Gambcoins", class: "player_info" %>
                 <span class="player_info_text">>Gambcoins:</span>
                 <span class="player_info"><%= current_user.coins %></span>
@@ -38,6 +47,9 @@
                 <span class="player_info"><%= leaves_to_add %></span>
               </a>
           </li>
+          <% unless current_user.played? %>
+            <li><%= link_to("Play", gambgame_play_path) %></li>
+          <% end %>
           <li><%= link_to "Edit account", edit_user_registration_path %></li>
           <li><%= link_to "Sign out", destroy_user_session_path, {method: :delete, class: "button special"} %></li>
         <% else %>

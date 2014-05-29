@@ -9,11 +9,16 @@ class User < ActiveRecord::Base
   belongs_to :right_branch, :class_name => 'User'
   has_one :sent_request, :class_name => 'JoinRequest', :foreign_key => "user_id"
   has_many :received_requests, :class_name => 'JoinRequest', :foreign_key => "receiver_id"
+  has_many :gambles
   
   after_create :insert_in_gambtree
   
   def self.trunk
     @@trunk ||= User.find_by is_trunk: true
+  end
+  
+  def played?
+    gambles.exists? gambgame_id: Gambgame.current.id
   end
   
   def smaller_branch
@@ -22,6 +27,16 @@ class User < ActiveRecord::Base
     else
       nil
     end
+  end
+  
+  def participates_with_branch? branch
+    current_gamble = gambles.find_by gambgame: Gambgame.current
+    return false unless current_gamble && left_branch && right_branch
+    
+    left_gambfruits = left_branch.gambfruits
+    right_gambfruits = right_branch.gambfruits
+    participating_branch = left_gambfruits.length <= right_gambfruits.length ? left_branch : right_branch
+    branch == participating_branch  
   end
   
   def leaf_count 
@@ -44,13 +59,43 @@ class User < ActiveRecord::Base
     end
   end
   
+  def participating_gambfruits
+    current_gamble = gambles.find_by gambgame: Gambgame.current
+    return [] unless current_gamble
+    
+    other_gambfruits = []
+    if left_branch && right_branch
+      left_gambfruits = left_branch.gambfruits
+      right_gambfruits = right_branch.gambfruits
+      other_gambfruits = left_gambfruits.length <= right_gambfruits.length ? left_gambfruits : right_gambfruits 
+    end
+    [current_gamble.gambfruit] + other_gambfruits
+  end
+  
+  def gambfruits
+    current_gamble = gambles.find_by gambgame: Gambgame.current
+    gambfruits = []
+    gambfruits << current_gamble.gambfruit unless current_gamble.nil?
+    gambfruits += left_branch.gambfruits if left_branch
+    gambfruits += right_branch.gambfruits if right_branch
+    return gambfruits  
+  end
+  
+  def get_winner_parents
+    winner_parents = []
+    unless parent.nil?
+      winner_parents << parent if parent.participates_with_branch? self
+      winner_parents += parent.get_winner_parents
+    end
+    return winner_parents
+  end
+  
   protected
   
   def insert_in_gambtree
     if User.trunk
       if recommender
         JoinRequest.create user: self, receiver: recommender, resolved: false
-        puts sent_request.id
       else
         User.trunk.insert_leaf self
       end

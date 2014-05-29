@@ -7,9 +7,8 @@
   <div class="gambfruit_option">
 
     <button id="decFruit" class="option_button">&laquo;</button>
-    <% fruits = %w(apple banana cherry grapes strawberry)%>
-    <% fruits.each do |fruit| %>
-      <%= image_tag "gambfruits/#{fruit}/#{fruit}_colored.png", title: fruit.capitalize, alt: fruit.capitalize, id: fruit, class: "option_image #{'hidden_option' unless fruit == 'apple'}" %>
+    <% FRUITS.each do |fruit| %>
+      <%= image_tag "gambfruits/#{fruit}/#{fruit}_colored.png", title: fruit.capitalize, alt: fruit.capitalize, id: fruit, class: "option_image #{'hidden_option' unless fruit == FRUITS[0]}" %>
     <% end %>
     <button id="incFruit" class="option_button">&raquo;</button>
     
@@ -31,9 +30,8 @@
   <div class="gambfruit_option">
   
     <button id="decColor" class="option_button">&laquo;</button>
-    <% colors = %w(red green yellow purple blue)%>
-    <% colors.each do |color| %>
-      <%= image_tag "gambfruits/brush/#{color}.png", title: color.capitalize, alt: color.capitalize, id: color, class: "option_image #{'hidden_option' unless color == 'red'}" %>
+    <% COLORS.each do |color| %>
+      <%= image_tag "gambfruits/brush/#{color}.png", title: color.capitalize, alt: color.capitalize, id: color, class: "option_image #{'hidden_option' unless color == COLORS[0]}" %>
     <% end %>
     <button id="incColor" class="option_button">&raquo;</button>
   
@@ -42,9 +40,9 @@
 </div>
 
 <div id="gambfruit">
-<% fruits.each do |fruit| %>
-  <% colors.each do |color| %>
-    <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image #{'hidden_option' unless color == 'red' && fruit == 'apple'}"%>
+<% FRUITS.each do |fruit| %>
+  <% COLORS.each do |color| %>
+    <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image #{'hidden_option' unless color == COLORS[0] && fruit == FRUITS[0]}"%>
   <% end %>
 <% end %>
 </div>
@@ -58,3 +56,12 @@
     <% end %>
   <% end %>
 </div>
+
+<ul class="buttons">
+  <%= form_tag(gambgame_gamble_path, method: "post") do %>
+    <%= hidden_field_tag :fruit, FRUITS[0], id: "fruit_param" %>
+    <%= hidden_field_tag :color, COLORS[0], id: "color_param" %>
+    <%= hidden_field_tag :number, 0, id: "number_param" %>
+    <li><%= submit_tag "Gamble", class: "button" %></li>
+  <% end %>
+</ul>
