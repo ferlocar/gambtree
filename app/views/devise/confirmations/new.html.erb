@@ -7,10 +7,6 @@
   <%= f.email_field :email, autofocus: true %></div>
 
   <br />
-  <div>
-    <ul class="buttons">
-      <li><%= f.submit "Resend confirmation instructions", :class => "button" %></li>
+      <%= f.submit "Resend confirmation instructions" %>
       <% end %>
       <%= render "devise/shared/links" %>
-    </ul>
-  </div>

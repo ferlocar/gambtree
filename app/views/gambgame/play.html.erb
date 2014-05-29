@@ -57,11 +57,10 @@
   <% end %>
 </div>
 
-<ul class="buttons">
-  <%= form_tag(gambgame_gamble_path, method: "post") do %>
-    <%= hidden_field_tag :fruit, FRUITS[0], id: "fruit_param" %>
-    <%= hidden_field_tag :color, COLORS[0], id: "color_param" %>
-    <%= hidden_field_tag :number, 0, id: "number_param" %>
-    <li><%= submit_tag "Gamble", class: "button" %></li>
-  <% end %>
-</ul>
+
+<%= form_tag(gambgame_gamble_path, method: "post") do %>
+  <%= hidden_field_tag :fruit, FRUITS[0], id: "fruit_param" %>
+  <%= hidden_field_tag :color, COLORS[0], id: "color_param" %>
+  <%= hidden_field_tag :number, 0, id: "number_param" %>
+  <%= submit_tag "Gamble" %>
+<% end %>

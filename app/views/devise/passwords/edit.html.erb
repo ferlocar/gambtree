@@ -11,10 +11,6 @@
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
   <br />
-  <div>
-    <ul class="buttons">
-      <li><%= f.submit "Change my password", :class => "button" %></li>
-      <% end %>
-      <%= render "devise/shared/links" %>
-    </ul>
-  </div>
+  <%= f.submit "Change my password" %>
+<% end %>
+<%= render "devise/shared/links" %>

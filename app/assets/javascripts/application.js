@@ -12,8 +12,4 @@
 
 //= require jquery
 //= require jquery_ujs
-//= require jquery.dropotron.min
-//= require skel.min
-//= require skel-layers.min
 //= require countdown
-//= require init

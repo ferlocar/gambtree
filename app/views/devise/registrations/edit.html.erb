@@ -31,12 +31,8 @@
     <%= f.password_field :current_password, autocomplete: "off" %></div>
 
    <br />
-    <div>
-      <ul class="buttons">
-        <li><%= f.submit "Update", :class => "button" %></li>
-        <li><%= link_to "Cancel", :back, :class => "button" %></li>
-      </ul>
-    </div>
+        <%= f.submit "Update" %>
+        <%= link_to "Cancel" %>
 <% end %>
 
 <br />
@@ -44,8 +40,4 @@
 
 <p>Unhappy?</p>
 
-<div>
-  <ul class="buttons">
-    <li><%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, class: "button", method: :delete %></li>
-  </ul>
-</div>
+<%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %>

@@ -17,10 +17,6 @@
 
 <% if request_num > 0 %>
 <p>To which branch do you wish to add your new leaf?</p>
-<div>
-  <ul class="buttons">
-    <li><%= link_to "Left branch", gambtree_add_leaf_to_branch_path(request_id: requests.first.id, to_left: "true"), class: "button", method: :post %></li>
-    <li><%= link_to "Right branch", gambtree_add_leaf_to_branch_path(request_id: requests.first.id, to_left: "false"), class: "button", method: :post %></li>
-  </ul>
-</div>
+<%= link_to "Left branch", gambtree_add_leaf_to_branch_path(request_id: requests.first.id, to_left: "true"), method: :post %>
+<%= link_to "Right branch", gambtree_add_leaf_to_branch_path(request_id: requests.first.id, to_left: "false"), method: :post %>
 <% end %>
