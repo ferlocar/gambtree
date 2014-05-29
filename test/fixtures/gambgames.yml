@@ -7,7 +7,6 @@ one:
   awards_won: 1
   winner_gambfruit_id: 
   ongoing: false
-  current_prize: 1.5
   current_players_number: 1
 
 two:
@@ -17,5 +16,4 @@ two:
   awards_won: 1
   winner_gambfruit_id: 
   ongoing: false
-  current_prize: 1.5
   current_players_number: 1

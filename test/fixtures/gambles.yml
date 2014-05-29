@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  won: false
+  user_id: 
+  gambgame_id: 
+  gambfruit_id: 
+
+two:
+  won: false
+  user_id: 
+  gambgame_id: 
+  gambfruit_id: 
