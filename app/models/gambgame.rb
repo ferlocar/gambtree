@@ -7,6 +7,7 @@ class Gambgame < ActiveRecord::Base
   end
   
   def prize
+    return 0 unless current_players_number > 0
     total_income = current_players_number * SEED_FEE
     gambtree_share = TARGET_MARGIN * [1, current_players_number/PLAYER_TARGET].min
     maximum_awards = Math.log2(current_players_number+1)

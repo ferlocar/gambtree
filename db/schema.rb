@@ -23,12 +23,12 @@ ActiveRecord::Schema.define(version: 20140528185801) do
 
   create_table "gambgames", force: true do |t|
     t.datetime "date_finished"
-    t.float    "prize_paid"
+    t.integer  "prize_paid"
     t.integer  "players_number"
     t.integer  "awards_won"
     t.integer  "winner_gambfruit_id"
     t.boolean  "ongoing"
-    t.float    "current_prize"
+    t.integer  "current_prize"
     t.integer  "current_players_number"
     t.datetime "created_at"
     t.datetime "updated_at"
