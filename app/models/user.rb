@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  validates :birth_date, :full_name, :username, presence: true       
+  
   belongs_to :recommender, :class_name => 'User' 
   belongs_to :parent, :class_name => 'User'
   belongs_to :left_branch, :class_name => 'User'
@@ -90,6 +92,11 @@ class User < ActiveRecord::Base
     return winner_parents
   end
   
+  def get_gambtree
+    gambtree = [{:lvl => 1, :posn => 0}] + self.get_leaves(2, 0)
+    return gambtree
+  end
+  
   protected
   
   def insert_in_gambtree
@@ -109,6 +116,26 @@ class User < ActiveRecord::Base
     new_leaf.parent = self
     new_leaf.save
     self.save
+  end
+  
+  def get_leaves lvl, posn
+    if left_branch.nil? && right_branch.nil?
+      return []
+    else
+      branches = [left_branch, right_branch]
+      leaves = []
+      next_lvl_posn = posn * 2;
+      is_left = true
+      branches.each do |branch|
+        if branch
+          next_lvl_posn += 1 unless is_left
+          leaves << {:lvl => lvl, :posn => next_lvl_posn}
+          leaves += get_leaves(branch, lvl+1, next_lvl_posn)
+        end
+        is_left = false
+      end
+      return leaves
+    end
   end
   
 end

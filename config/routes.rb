@@ -5,7 +5,18 @@ Rails.application.routes.draw do
   get 'gambtree/pending_requests'
   post 'gambtree/add_leaf_to_branch'
 
-  devise_for :users
+  devise_for :users, skip: :registrations
+  devise_scope :user do
+    resource :registration,
+      only: [:new, :create, :edit, :update],
+      path: 'users',
+      path_names: { new: 'sign_up' },
+      controller: 'devise/registrations',
+      as: :user_registration do
+        get :cancel
+      end
+  end
+  
   get 'sign_in/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

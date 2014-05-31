@@ -1,10 +1,66 @@
-<h2>Current Gambgame Information.</h2><br />
-<% gambgame = Gambgame.current %>
-How long before it ends?
-<script>
-  var myCountdown1 = new Countdown({time:3000,hideLine:true, rangeHi: "hour", inline: true});
-</script><br />
-How much would I win? <%= gambgame.prize %> Gambcoins<br />
-How many are playing? <%= gambgame.current_players_number %> players<br />
-If someone else comes in, how much would the prize increase ? <%= gambgame.prize %> Gambcoins<br />
-        
+<div class="row-fluid">
+	<div class="span12">
+		<h1>Current Gambgame Information</h1>
+    </div>
+</div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<% gambgame = Gambgame.current %>
+		
+		<div class="span3 tiny ">
+		    <div class="pricing-table-header-tiny">
+		        <h3>How long before it ends?</h3>
+		    </div>
+		    <div class="pricing-table-features">
+		    	<script>
+		    		<% time_until_end = (gambgame.created_at + 1.days) - Time.now %>
+		    	  	var myCountdown1 = new Countdown({time:<%=time_until_end%>,hideLine:true, rangeHi: "hour", inline: true});
+				</script>
+		    </div>
+		</div>
+		<div class="span3 small">
+		    <div class="pricing-table-header-small">
+		        <h3>How much would I win?</h3>
+		    </div><div class="pricing-table-features">
+		        <p><%= gambgame.prize %> <strong>Gambcoins</strong></p>
+		    </div>
+		</div>
+		
+		
+		<div class="span3 medium">
+		    <div class="pricing-table-header-medium">
+		        <h3>How many are playing?</h3>
+		    </div><div class="pricing-table-features">
+		        <p><%= gambgame.current_players_number %> <strong>players</strong></p>
+		    </div>
+		</div>
+		
+		<div class="span3 pro">
+		    <div class="pricing-table-header-pro">
+		        <h3>Increase in prize per new person?</h3>
+		    </div><div class="pricing-table-features">
+		        <p><%= gambgame.prize_increase %> <strong>Gambcoins</strong></p>
+		    </div>
+		</div>
+    </div>
+</div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<h1>Your Gambtree</h1>
+    </div>
+</div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<script>
+		  var leaves = [
+		      <%= current_user.get_gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]}}"}.join(", ") %>
+		  ];
+		</script>
+		<%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
+		<canvas id="gambtree">
+		</canvas>
+    </div>
+</div>

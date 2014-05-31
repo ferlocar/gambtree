@@ -9,8 +9,12 @@
 //
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
-
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
-//= require countdown
+//= require twitter/bootstrap
+//= require bootstrap-datepicker
+//= require_tree .
+
+window.onload = function (){
+	$(".datepicker").datepicker({format: "dd-mm-yyyy", weekStart:1, autoclose: true});
+};
