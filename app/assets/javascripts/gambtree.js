@@ -17,11 +17,9 @@ window.onload = function(){
       }
   }
   var containerWidth = $(("#gambtree")).parent().width();
-  var maxMargin = 40;
-  console.log(containerWidth);
-  var hUnit = Math.min(containerWidth-maxMargin)/Math.pow(2, maxLvl - 1);
-  var vUnit = hUnit;
-  var radius = Math.min(hUnit, vUnit)/4;
+  var hUnit = containerWidth/Math.pow(2, maxLvl - 1);
+  var drawSize = Math.min(hUnit,100);
+  var vUnit = drawSize;
   
   canvas.width = hUnit * Math.pow(2, maxLvl - 1);
   canvas.height = vUnit * maxLvl;
@@ -36,7 +34,10 @@ window.onload = function(){
         var parent = {lvl:leaf.lvl-1,posn:Math.floor(leaf.posn/2)};
         drawLine(leafCoordinates, getLeafCoordinates(parent));  
       }
-      drawCircle(leafCoordinates);
+      if(leaf.lvl == 1)
+      	drawTrunk(leafCoordinates);
+      else
+      	drawLeaf(leafCoordinates);
     }
   }
   
@@ -46,22 +47,22 @@ window.onload = function(){
     return {x: leafX, y: leafY};
   }
   
-  function drawCircle(coordinates){
-    ctx.beginPath();
-    ctx.arc(coordinates.x, coordinates.y, radius, 0, 2 * Math.PI, false);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#003300';
-    ctx.fillStyle = 'green';
-    ctx.fill();
-    ctx.stroke();
+  function drawTrunk(coordinates){
+  	var img = document.getElementById("trunk");
+    ctx.drawImage(img, coordinates.x-drawSize/2, coordinates.y-drawSize/2, drawSize, drawSize);
+  }
+  
+  function drawLeaf(coordinates){
+  	var img = document.getElementById("leaf");
+    ctx.drawImage(img, coordinates.x-drawSize/2, coordinates.y-drawSize/2, drawSize, drawSize);
   }
   
   function drawLine(fromCoordinates, toCoordinates) {
     ctx.beginPath();
     ctx.moveTo(fromCoordinates.x, fromCoordinates.y);
     ctx.lineTo(toCoordinates.x, toCoordinates.y);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#003300';
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = '#7F462C';
     ctx.stroke();
   } 
   

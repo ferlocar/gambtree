@@ -14,3 +14,14 @@
  *= require bootstrap-datepicker 
  *= require_tree .  
  */
+
+.nav {
+	.btn.nav-custom-btn {
+		line-height: 8px;
+		color: #DDD
+	}
+	
+	.btn.nav-custom-btn:hover {
+		background: #0088CC;
+	}
+}

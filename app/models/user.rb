@@ -130,7 +130,7 @@ class User < ActiveRecord::Base
         if branch
           next_lvl_posn += 1 unless is_left
           leaves << {:lvl => lvl, :posn => next_lvl_posn}
-          leaves += get_leaves(branch, lvl+1, next_lvl_posn)
+          leaves += branch.get_leaves lvl+1, next_lvl_posn
         end
         is_left = false
       end

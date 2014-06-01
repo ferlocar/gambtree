@@ -36,76 +36,85 @@
 
     <%= javascript_include_tag "application" %>
   </head>
-  <body>
-
-    <div class="navbar navbar-fluid-top">
+  <body class="<%= "home_site" if @is_home %>">
+  	<img id="trunk" style="display: none"src="/assets/trunk.png"></img>
+  	<img id="leaf" style="display: none"src="/assets/leaf.png"></img>
+  	
+  	<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </a>
+          </button>
           <a class="brand" href="<%= root_path %>">Gambtree</a>
-          <div class="container-fluid nav-collapse">
+          <div class="nav-collapse collapse">
+            <% if user_signed_in? %>
+            <ul class="nav pull-right">
+              <li><%= link_to "Edit account", edit_user_registration_path %></li>
+              <li><%= link_to "Sign out", destroy_user_session_path, {method: :delete, class: "btn btn-primary nav-custom-btn"} %></li>
+            </ul>
+            <p class="navbar-text pull-right" style="margin-right: 5px">
+              Logged in as <strong><%= current_user.username %></strong> 
+            </p>
+            <% else %>
+            <ul class="nav pull-right">
+              <li><%= link_to "Create Account", new_user_registration_path %></li>
+              <li><%= link_to "Sign In", new_user_session_path, class: "btn btn-primary nav-custom-btn" %></li>
+            </ul>
+            <% end %>
             <ul class="nav">
-              	<li class="current"><a href="<%= root_path %>">Welcome<%= ", #{current_user.username}" if user_signed_in? %></a></li>
-				<% if user_signed_in? %>
-				  <li>
-				      <a href="#" onclick="return false;" style="cursor: default">
-				        <%= image_tag "players_icon.png", size: "35x30", title: "Gambgame players", alt: "Gambgame players", class: "player_info" %>
-				        <span class="player_info"><%= Gambgame.current.current_players_number %></span>
-				        <%= image_tag "prize_icon.png", size: "24x24", title: "Gambgame prize", alt: "Gambgame prize", class: "player_info" %>
-				        <span class="player_info"><%= Gambgame.current.prize %></span>
-				        <%= image_tag "gambfruit_icon.png", size: "41x26", title: "Your Gambfruits", alt: "Your Gambfruits", class: "player_info" %>
-				        <span class="player_info"><%= current_user.participating_gambfruits.length %></span>
-				        <%= image_tag "gambcoin_icon.png", size: "24x24", title: "Gambcoins", alt: "Gambcoins", class: "player_info" %>
-				        <span class="player_info"><%= current_user.coins %></span>
-				        <%= image_tag "gambseed_icon.png", size: "29x24", title: "Gambseeds", alt: "Gambseeds", class: "player_info" %>
-				        <span class="player_info"><%= current_user.seeds%></span>
-				      </a>
-				  </li>
-				  <li>
-				      <% leaves_to_add = current_user.pending_requests.count %>
-				      <a href="<%= gambtree_pending_requests_path%>">
-				        <%= image_tag "new_leaves.png", size: "24x24", title: "New leaves to add", alt: "New leaves to add", class: "player_info" %>
-				        <span class="player_info"><%= leaves_to_add %></span>
-				      </a>
-				  </li>
-				  <% unless current_user.played? %>
-				    <li><%= link_to("Play", gambgame_play_path) %></li>
-				  <% end %>
-				  <li><%= link_to "Edit account", edit_user_registration_path %></li>
-				  <li><%= link_to "Sign out", destroy_user_session_path, {method: :delete} %></li>
-				<% else %>
-				  <li><%= link_to "Sign In", new_user_session_path %></li>
-				  <li><%= link_to "Create Account", new_user_registration_path %></li>
-				<% end %>
+              <li class="active"><a href="#">Home</a></li>
+              <li><%= link_to("My Gamble", gambgame_play_path) %></li>
+              <li><%= link_to("My Gambtree", gambtree_pending_requests_path) %></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
+  	
+    
+    
     <div class="container-fluid">
-		<% if @is_home %>
-    		<%= yield %>
-		<% else %>
-	      <div class="row-fluid">
-	        <div class="span12">
-	          <%= bootstrap_flash %>
-	          <% flash.each do |name, msg| %>
-			    <%= content_tag :div, msg, :id => "flash_#{name}" %>
-			  <% end %>
-	          <%= yield %>
-	        </div>
-	      </div><!--/row-->
-		<% end %>
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <% if user_signed_in? %>
+              <li>
+                <%= image_tag "gambcoin_icon.png", size: "24x24", title: "Gambcoins", alt: "Gambcoins", class: "player_info" %>
+                Your Gambcoins: <%= current_user.coins %></li>
+              <li>
+                <%= image_tag "gambseed_icon.png", size: "24x24", title: "Gambseeds", alt: "Gambseeds", class: "player_info" %>
+                Your Gambseeds: <%= current_user.seeds %></li>
+              <li>
+                <%= image_tag "gambfruit_icon.png", size: "24x24", title: "Your Gambfruits", alt: "Your Gambfruits", class: "player_info" %>
+                Your Gambfruits: <%= current_user.participating_gambfruits.length %></li>
+              <% end %>
+              <li>
+                <%= image_tag "prize_icon.png", size: "24x24", title: "Gambgame prize", alt: "Gambgame prize", class: "player_info" %>
+                Gambgame prize: <%= Gambgame.current.prize %></li>
+              <li>
+                <%= image_tag "players_icon.png", size: "24x24", title: "Gambgame players", alt: "Gambgame players", class: "player_info" %>
+                Gambgame players: <%= Gambgame.current.current_players_number %></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <%= bootstrap_flash %>
+          <% flash.each do |name, msg| %>
+             <%= content_tag :div, msg, :id => "flash_#{name}" %>
+          <% end %>
+          <%= yield %>
+        </div>
+      </div><!--/row-->
+
       <footer>
-        <p>&copy; Gambtree 2014</p>
+        <p>&copy; Company 2014</p>
       </footer>
 
     </div> <!-- /container -->
 
-  </body>
+</body>
 </html>

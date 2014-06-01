@@ -41,19 +41,19 @@ window.onload = function(){
 	}
 	
 	function refreshNumber(inc) {
-		var unitsImage = $(".units_" + (currentNumber%10).toString());
-		var tensImage = $(".tens_" + Math.floor(currentNumber/10).toString());
-		unitsImage.addClass("hidden_option");
-		tensImage.addClass("hidden_option");
+		var tensImage = $(".tens_digit");
+		var unitsImage = $(".units_digit");
+		unitsImage.removeClass("num" + (currentNumber%10).toString());
+		tensImage.removeClass("num" + Math.floor(currentNumber/10).toString());
+		
 		currentNumber += inc;
 		if(currentNumber >= 100)
 			currentNumber = 0;
 		else if(currentNumber < 0)
 			currentNumber = 99;
-		var unitsImage = $(".units_" + (currentNumber%10).toString());
-		var tensImage = $(".tens_" + Math.floor(currentNumber/10).toString());
-		unitsImage.removeClass("hidden_option");
-		tensImage.removeClass("hidden_option");
+		
+		unitsImage.addClass("num" + (currentNumber%10).toString());
+		tensImage.addClass("num" + Math.floor(currentNumber/10).toString());
 		refreshGambfruit();
 	}
 	

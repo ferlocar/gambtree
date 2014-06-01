@@ -10,7 +10,7 @@
 		
 		<div class="span3 tiny ">
 		    <div class="pricing-table-header-tiny">
-		        <h3>How long before it ends?</h3>
+		        <h3>Time until it ends</h3>
 		    </div>
 		    <div class="pricing-table-features">
 		    	<script>
@@ -21,7 +21,7 @@
 		</div>
 		<div class="span3 small">
 		    <div class="pricing-table-header-small">
-		        <h3>How much would I win?</h3>
+		        <h3>Prize size</h3>
 		    </div><div class="pricing-table-features">
 		        <p><%= gambgame.prize %> <strong>Gambcoins</strong></p>
 		    </div>
@@ -30,7 +30,7 @@
 		
 		<div class="span3 medium">
 		    <div class="pricing-table-header-medium">
-		        <h3>How many are playing?</h3>
+		        <h3>Amount of players</h3>
 		    </div><div class="pricing-table-features">
 		        <p><%= gambgame.current_players_number %> <strong>players</strong></p>
 		    </div>
@@ -38,13 +38,15 @@
 		
 		<div class="span3 pro">
 		    <div class="pricing-table-header-pro">
-		        <h3>Increase in prize per new person?</h3>
+		        <h3>Increase in prize per new person</h3>
 		    </div><div class="pricing-table-features">
 		        <p><%= gambgame.prize_increase %> <strong>Gambcoins</strong></p>
 		    </div>
 		</div>
     </div>
 </div>
+
+<% if user_signed_in? %>
 
 <div class="row-fluid">
 	<div class="span12">
@@ -64,3 +66,5 @@
 		</canvas>
     </div>
 </div>
+
+<% end %>

@@ -44,6 +44,6 @@ gem 'mysql2'
 gem 'whenever', :require => false
 gem 'httparty'
 gem "less-rails" 
-gem "twitter-bootstrap-rails"
+gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datepicker-rails'
 
