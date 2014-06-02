@@ -26,7 +26,7 @@ class GambgameController < ApplicationController
       unless errors.any?
         # User gambles' validation
         current_game = Gambgame.current
-        unless current_game.gambles.find_by user_id: current_user.id
+        unless current_user.gamble
           # Gambfruit validation
           gambfruit = Gambfruit.find_or_create_by fruit: fruit, color: color, number: number
           unless current_game.gambles.find_by gambfruit_id: gambfruit.id

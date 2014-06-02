@@ -19,8 +19,8 @@ class User < ActiveRecord::Base
     @@trunk ||= User.find_by is_trunk: true
   end
   
-  def played?
-    gambles.exists? gambgame_id: Gambgame.current.id
+  def gamble
+    gambles.find_by gambgame: Gambgame.current
   end
   
   def smaller_branch
@@ -32,8 +32,7 @@ class User < ActiveRecord::Base
   end
   
   def participates_with_branch? branch
-    current_gamble = gambles.find_by gambgame: Gambgame.current
-    return false unless current_gamble && left_branch && right_branch
+    return false unless gamble && left_branch && right_branch
     
     left_gambfruits = left_branch.gambfruits
     right_gambfruits = right_branch.gambfruits
@@ -61,23 +60,26 @@ class User < ActiveRecord::Base
     end
   end
   
-  def participating_gambfruits
-    current_gamble = gambles.find_by gambgame: Gambgame.current
-    return [] unless current_gamble
-    
-    other_gambfruits = []
+  def participating_gambfruits calculate_possible_gambfruits=false
+    if gamble
+      gambfruits = [gamble.gambfruit]
+    elsif calculate_possible_gambfruits
+      gambfruits = []
+    else
+      return []
+    end
+    child_gambfruits = []
     if left_branch && right_branch
       left_gambfruits = left_branch.gambfruits
       right_gambfruits = right_branch.gambfruits
-      other_gambfruits = left_gambfruits.length <= right_gambfruits.length ? left_gambfruits : right_gambfruits 
+      child_gambfruits = left_gambfruits.length <= right_gambfruits.length ? left_gambfruits : right_gambfruits 
     end
-    [current_gamble.gambfruit] + other_gambfruits
+    gambfruits + child_gambfruits
   end
   
   def gambfruits
-    current_gamble = gambles.find_by gambgame: Gambgame.current
     gambfruits = []
-    gambfruits << current_gamble.gambfruit unless current_gamble.nil?
+    gambfruits << gamble.gambfruit if gamble
     gambfruits += left_branch.gambfruits if left_branch
     gambfruits += right_branch.gambfruits if right_branch
     return gambfruits  

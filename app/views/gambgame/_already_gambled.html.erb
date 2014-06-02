@@ -1,0 +1,37 @@
+<h2>Check your current gamble</h2>
+<p> You are participating in today's Gambgame. At the end of the day, one of all 
+  the players' Gambfruits will be chosen at random. If your Gambfruit or 
+  one of the Gambfruits in your smaller branch is chosen, you'll win the Gambgame's prize!</p><br />
+
+<% gambfruits = current_user.participating_gambfruits %>
+<p> You are currently participating with  
+  <strong><%= gambfruits.length %> Gambfruit<%= 's' unless 1 == gambfruits.length %></strong>:  
+</p><br />
+<% col_num = 4 %>
+<% (gambfruits.length/col_num + 1).times do |row_num|%>
+  <div class="row-fluid">
+    <% first_posn = row_num * col_num %>
+    <% last_posn = first_posn + (gambfruits.length/col_num > row_num ? col_num : gambfruits.length % col_num) - 1 %>
+    <% row_gambfruits = gambfruits[first_posn..last_posn] %> 
+    <% row_gambfruits.each do |gambfruit| %>
+      <div class="span3 gambfruit_options">
+        <div id="gambfruit">
+          <% fruit = gambfruit.fruit %>
+          <% color = gambfruit.color %>
+          <% number = gambfruit.number %>
+          <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image"%>
+        </div>
+        
+        <div id="seal_container">
+          <%= image_tag "gambfruits/numbers/shield.png", id: "gambfruit_seal"%>
+          <div class="crop tens">
+            <img class="tens_digit num<%=number/10%>" src="/assets/numbers1.png"/>
+          </div>
+          <div class="crop units">
+            <img class="units_digit num<%=number%10%>" src="/assets/numbers1.png"/>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

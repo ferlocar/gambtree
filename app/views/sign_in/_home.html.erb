@@ -1,70 +1,30 @@
+<% gambgame = Gambgame.current %>
 <div class="row-fluid">
 	<div class="span12">
-		<h1>Current Gambgame Information</h1>
-    </div>
+	  <h2>Welcome to Gambtree!</h2>
+	  <p> Today's Gambgame already has <strong><%=gambgame.current_players_number%> players</strong>. The winners 
+	    will be awarded with <strong><%=gambgame.prize%> Gambcoins</strong>, and there can be up to 
+	    <strong>
+	      <%= gambgame.current_players_number > 0 ? Math.log2(gambgame.current_players_number).truncate.to_i : 0 %> 
+	      winners</strong>!</p>
+	  <p> If a new player comes in, the prize will increase in 
+	    <strong><%=gambgame.prize_increase%> Gambcoins</strong>. The Gambgame will end in: </p><br />
+	  <div class="clock-container">
+	    <script>
+      <% time_until_end = (gambgame.created_at + 1.days) - Time.now %>
+      var myCountdown1 = new Countdown({time:<%=time_until_end%>,hideLine:true, rangeHi: "hour", inline: true});
+      </script>
+	  </div>
+	  <br />
+	  <% if user_signed_in? %>
+	     <% if current_user.gamble %>
+	       <p> Check your Gambfruits for today's Gambgame <%= link_to 'here', gambgame_play_path%>!</p>
+	     <% else %>
+	       <p> Place your gamble in today's Gambgame <%= link_to 'here', gambgame_play_path%>!</p>
+	     <% end %>
+	       <p> You can also check out <%= link_to 'your Gambtree', gambtree_pending_requests_path%>, and add more leaves to it 
+	         by telling your friends to join Gambtree.</p>
+	  <% end %>
+  </div>
 </div>
 
-<div class="row-fluid">
-	<div class="span12">
-		<% gambgame = Gambgame.current %>
-		
-		<div class="span3 tiny ">
-		    <div class="pricing-table-header-tiny">
-		        <h3>Time until it ends</h3>
-		    </div>
-		    <div class="pricing-table-features">
-		    	<script>
-		    		<% time_until_end = (gambgame.created_at + 1.days) - Time.now %>
-		    	  	var myCountdown1 = new Countdown({time:<%=time_until_end%>,hideLine:true, rangeHi: "hour", inline: true});
-				</script>
-		    </div>
-		</div>
-		<div class="span3 small">
-		    <div class="pricing-table-header-small">
-		        <h3>Prize size</h3>
-		    </div><div class="pricing-table-features">
-		        <p><%= gambgame.prize %> <strong>Gambcoins</strong></p>
-		    </div>
-		</div>
-		
-		
-		<div class="span3 medium">
-		    <div class="pricing-table-header-medium">
-		        <h3>Amount of players</h3>
-		    </div><div class="pricing-table-features">
-		        <p><%= gambgame.current_players_number %> <strong>players</strong></p>
-		    </div>
-		</div>
-		
-		<div class="span3 pro">
-		    <div class="pricing-table-header-pro">
-		        <h3>Increase in prize per new person</h3>
-		    </div><div class="pricing-table-features">
-		        <p><%= gambgame.prize_increase %> <strong>Gambcoins</strong></p>
-		    </div>
-		</div>
-    </div>
-</div>
-
-<% if user_signed_in? %>
-
-<div class="row-fluid">
-	<div class="span12">
-		<h1>Your Gambtree</h1>
-    </div>
-</div>
-
-<div class="row-fluid">
-	<div class="span12">
-		<script>
-		  var leaves = [
-		      <%= current_user.get_gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]}}"}.join(", ") %>
-		  ];
-		</script>
-		<%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
-		<canvas id="gambtree">
-		</canvas>
-    </div>
-</div>
-
-<% end %>
