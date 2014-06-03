@@ -1,6 +1,16 @@
 <% requests = current_user.pending_requests%>
 <% request_num = requests.count%>
+<% left_branch_num = current_user.left_branch ? current_user.left_branch.gambtree.length : 0 %>
+<% right_branch_num = current_user.right_branch ? current_user.right_branch.gambtree.length : 0 %>
+<% gambfruits_num = current_user.participating_gambfruits(true).length %>
+<% gambfruits_num += 1 if current_user.gamble.nil? %>
+
 <h2>Welcome to your Gambtree!</h2>
+<p> Your Gambtree has <strong><%= @gambtree.length - 1 %> <%= request_num == 1 ? "leaf" : "leaves"%></strong>, 
+  <strong><%= left_branch_num %></strong> in its left branch and <strong><%= right_branch_num %></strong> in its
+  right branch. You gamble in the Gambgame with your own Gambfruit and all the Gambfruits in the branch that
+  has the fewest Gambfruits. If you participate today, you would be playing with 
+  <strong><%= gambfruits_num %> Gambfruit<%= "s" if gambfruits_num > 0 %></strong>.</p>
 <p> You currently have <strong><%= request_num %> pending <%= request_num == 1 ? "leaf" : "leaves"%></strong> to 
   add to your Gambtree.</p><br />
   
@@ -15,13 +25,12 @@
   </div>
 </div>
 <br /><br />
-
 <% end %>
 
 <h4 class="text-center">Check out your Gambtree!</h4><br />
 <script>
   var leaves = [
-      <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]}}"}.join(", ") %>
+      <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]},name:\"#{leaf[:name]}\",gambling:#{leaf[:gambling]},used_by_player:#{leaf[:used_by_player] ? 'true' : 'false'}}"}.join(", ").html_safe %>
   ];
 </script>
 <%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
@@ -30,5 +39,16 @@
     <canvas id="gambtree">
     </canvas>
   </div>
-</div>
+</div><br />
 
+<div class="row-fluid">
+  <div class="span4 text-align: center">
+    <div class="text-center regular-leaf">User in your Gambtree</div>
+  </div>
+  <div class="span4 text-align: center">
+    <div class="text-center gambling-leaf">User with a Gambfruit</div>
+  </div>
+  <div class="span4 text-align: center">
+    <div class="text-center participating-leaf">User that gives a Gambfruit</div>
+  </div>
+</div>

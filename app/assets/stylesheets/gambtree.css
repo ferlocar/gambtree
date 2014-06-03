@@ -3,3 +3,36 @@
 	margin-right: 3px;
 	vertical-align: middle;
 }
+
+.participating-leaf{
+	margin: auto;
+	background: #FF9900;
+	border: #996600;
+	border-style: solid;
+	border-width: 2px;
+	width: 200px;
+	font-weight: bold;
+	color: #996600;
+}
+
+.regular-leaf{
+	margin: auto;
+	background: #009933;
+	border: #003300;
+	border-style: solid;
+	border-width: 2px;
+	width: 200px;
+	font-weight: bold;
+	color: #003300;
+}
+
+.gambling-leaf{
+	margin: auto;
+	background: #FFCC33;
+	border: #996600;
+	border-style: solid;
+	border-width: 2px;
+	width: 200px;
+	font-weight: bold;
+	color: #996600;
+}

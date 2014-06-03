@@ -94,9 +94,8 @@ class User < ActiveRecord::Base
     return winner_parents
   end
   
-  def get_gambtree
-    gambtree = [{:lvl => 1, :posn => 0}] + self.get_leaves(2, 0)
-    return gambtree
+  def gambtree
+    [{:lvl => 1, :posn => 0, :name => username, :gambling => !gamble.nil?, :used_by_player => !gamble.nil?}] + self.get_leaves(2, 0)
   end
   
   protected
@@ -124,6 +123,11 @@ class User < ActiveRecord::Base
     if left_branch.nil? && right_branch.nil?
       return []
     else
+      if lvl == 2
+        left_gambfruits = left_branch.nil? ? 0 : left_branch.gambfruits.length
+        right_gambfruits = right_branch.nil? ? 0 : right_branch.gambfruits.length
+        player_uses_left = left_gambfruits <= right_gambfruits
+      end
       branches = [left_branch, right_branch]
       leaves = []
       next_lvl_posn = posn * 2;
@@ -131,8 +135,13 @@ class User < ActiveRecord::Base
       branches.each do |branch|
         if branch
           next_lvl_posn += 1 unless is_left
-          leaves << {:lvl => lvl, :posn => next_lvl_posn}
-          leaves += branch.get_leaves lvl+1, next_lvl_posn
+          is_participating_branch = (branch != left_branch) ^ player_uses_left
+          leaves << {:lvl => lvl, :posn => next_lvl_posn, :name => branch.username, 
+            :gambling => !branch.gamble.nil?, :used_by_player => is_participating_branch && !branch.gamble.nil?}
+          branch_leaves = branch.get_leaves lvl+1, next_lvl_posn
+          # Mark the leaves that belong to the branch with which the player is participating in the gamble
+          branch_leaves.each { |leaf| leaf[:used_by_player] = is_participating_branch && leaf[:gambling]} if lvl == 2
+          leaves += branch_leaves
         end
         is_left = false
       end

@@ -2,7 +2,7 @@ class GambtreeController < ApplicationController
   before_action :authenticate_user!
   
   def pending_requests
-    @gambtree = current_user.get_gambtree
+    @gambtree = current_user.gambtree
   end
   
   def add_leaf_to_branch
