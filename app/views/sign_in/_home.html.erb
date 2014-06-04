@@ -1,30 +1,53 @@
 <% gambgame = Gambgame.current %>
-<div class="row-fluid">
-	<div class="span12">
-	  <h2>Welcome to Gambtree!</h2>
-	  <p> Today's Gambgame already has <strong><%=gambgame.current_players_number%> players</strong>. The winners 
-	    will be awarded with <strong><%=gambgame.prize%> Gambcoins</strong>, and there can be up to 
-	    <strong>
-	      <%= gambgame.current_players_number > 0 ? Math.log2(gambgame.current_players_number).truncate.to_i : 0 %> 
-	      winners</strong>!</p>
-	  <p> If a new player comes in, the prize will increase in 
-	    <strong><%=gambgame.prize_increase%> Gambcoins</strong>. The Gambgame will end in: </p><br />
-	  <div class="clock-container">
-	    <script>
-      <% time_until_end = (gambgame.created_at + 1.days) - Time.now %>
-      var myCountdown1 = new Countdown({time:<%=time_until_end%>,hideLine:true, rangeHi: "hour", inline: true});
-      </script>
-	  </div>
-	  <br />
-	  <% if user_signed_in? %>
-	     <% if current_user.gamble %>
-	       <p> Check your Gambfruits for today's Gambgame <%= link_to 'here', gambgame_play_path%>!</p>
-	     <% else %>
-	       <p> Place your gamble in today's Gambgame <%= link_to 'here', gambgame_play_path%>!</p>
-	     <% end %>
-	       <p> You can also check out <%= link_to 'your Gambtree', gambtree_pending_requests_path%>, and add more leaves to it 
-	         by telling your friends to join Gambtree.</p>
-	  <% end %>
+<% last_gambgame = Gambgame.order('created_at DESC').limit(2)[1] %>
+<% winner_gambfruit = last_gambgame.winner_gambfruit %>
+<% winners = last_gambgame.winners.map {|usr| usr.username} %>
+
+<h2>Welcome to Gambtree!</h2>
+<p>Yesterday's winning Gambfruit is:</p>
+<div class="row-fluid"> 
+  <div class="span3 gambfruit_options">
+    <div id="gambfruit">
+      <% fruit = winner_gambfruit.fruit %>
+      <% color = winner_gambfruit.color %>
+      <% number = winner_gambfruit.number %>
+      <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image"%>
+    </div>
+    
+    <div id="seal_container">
+      <%= image_tag "gambfruits/numbers/shield.png", id: "gambfruit_seal"%>
+      <div class="crop tens">
+        <img class="tens_digit num<%=number/10%>" src="/assets/numbers1.png"/>
+      </div>
+      <div class="crop units">
+        <img class="units_digit num<%=number%10%>" src="/assets/numbers1.png"/>
+      </div>
+    </div>
   </div>
 </div>
+<p>Each winner was awarded with <strong><%= last_gambgame.prize %> Gambcoins</strong>. 
+  The winners are: <strong><%= winners.to_sentence %></strong>.</p>
 
+<p> Today's Gambgame already has <strong><%=gambgame.current_players_number%> players</strong>. The winners 
+  will be awarded with <strong><%=gambgame.prize%> Gambcoins</strong>, and there can be up to 
+  <strong>
+    <%= gambgame.current_players_number > 0 ? Math.log2(gambgame.current_players_number).truncate.to_i : 0 %> 
+    winners</strong>!</p>
+<p> If a new player comes in, the prize will increase in 
+  <strong><%=gambgame.prize_increase%> Gambcoins</strong>. The Gambgame will end in: </p><br />
+<div class="clock-container">
+  <script>
+  <% time_until_end = (gambgame.created_at + 1.days) - Time.now %>
+  var myCountdown1 = new Countdown({time:<%=time_until_end%>,hideLine:true, rangeHi: "hour", inline: true});
+  </script>
+</div>
+<br />
+<% if user_signed_in? %>
+   <% if current_user.gamble %>
+     <p> Check your Gambfruits for today's Gambgame <%= link_to 'here', gambgame_play_path%>!</p>
+   <% else %>
+     <p> Place your gamble in today's Gambgame <%= link_to 'here', gambgame_play_path%>!</p>
+   <% end %>
+     <p> You can also check out <%= link_to 'your Gambtree', gambtree_pending_requests_path%>, and add more leaves to it 
+       by telling your friends to join Gambtree.</p>
+<% end %>

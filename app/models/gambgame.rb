@@ -22,4 +22,8 @@ class Gambgame < ActiveRecord::Base
     prize_for_players(current_players_number + 1) - prize
   end
   
+  def winners
+    User.joins(:gambles).where(gambles: {gambgame: self, won: true}).order("username")
+  end
+  
 end
