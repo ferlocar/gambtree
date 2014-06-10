@@ -6,7 +6,7 @@
 <% gambfruits_num += 1 if current_user.gamble.nil? %>
 
 <h2>Welcome to your Gambtree!</h2>
-<p> Your Gambtree has <strong><%= @gambtree.length - 1 %> <%= request_num == 1 ? "leaf" : "leaves"%></strong>, 
+<p> Your Gambtree has <strong><%= @gambtree.length - 1 %> <%= @gambtree.length - 1 == 1 ? "leaf" : "leaves"%></strong>, 
   <strong><%= left_branch_num %></strong> in its left branch and <strong><%= right_branch_num %></strong> in its
   right branch. You gamble in the Gambgame with your own Gambfruit and all the Gambfruits in the branch that
   has the fewest Gambfruits. If you participate today, you would be playing with 
@@ -30,7 +30,7 @@
 <h4 class="text-center">Check out your Gambtree!</h4><br />
 <script>
   var leaves = [
-      <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]},name:\"#{leaf[:name]}\",gambling:#{leaf[:gambling]},used_by_player:#{leaf[:used_by_player] ? 'true' : 'false'}}"}.join(", ").html_safe %>
+      <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]},name:\"#{leaf[:name]}\",gambling:#{leaf[:gambling]},is_leaf:#{leaf[:is_leaf].to_s},used_by_player:#{leaf[:used_by_player].to_s}}"}.join(", ").html_safe %>
   ];
 </script>
 <%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
@@ -40,6 +40,8 @@
     </canvas>
   </div>
 </div><br />
+
+<div style="text-align: center"><%= submit_tag "Show names", id: "show", class: "btn btn-primary btn-large" %></div><br />
 
 <div class="row-fluid">
   <div class="span4 text-align: center">

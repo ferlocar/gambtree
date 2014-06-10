@@ -94,11 +94,29 @@ class User < ActiveRecord::Base
     return winner_parents
   end
   
+  def is_leaf?
+    left_branch.nil? && right_branch.nil?
+  end
+  
   def gambtree
-    [{:lvl => 1, :posn => 0, :name => username, :gambling => !gamble.nil?, :used_by_player => !gamble.nil?}] + self.get_leaves(2, 0)
+    [{lvl: 1, posn: 0, name: username, gambling:!gamble.nil?, 
+      used_by_player: !gamble.nil?, is_leaf: is_leaf?}] + self.get_leaves(2, 0)
+  end
+  
+  def after_database_authentication
+    if (last_gambseed_gift_date + 15.days) < Time.now
+      self.seeds += 15
+      self.last_gambseed_gift_date = Time.now
+      self.save
+    end
   end
   
   protected
+  
+  def set_default_values
+    seeds = 15
+    last_gambseed_gift_date = Time.now
+  end
   
   def insert_in_gambtree
     if User.trunk
@@ -109,8 +127,10 @@ class User < ActiveRecord::Base
       end
     else
       self.is_trunk = true
-      self.save
     end
+    self.seeds = 15
+    self.last_gambseed_gift_date = Time.now
+    self.save
   end
   
   def attach_leaf_to_me new_leaf
@@ -136,8 +156,8 @@ class User < ActiveRecord::Base
         if branch
           next_lvl_posn += 1 unless is_left
           is_participating_branch = (branch != left_branch) ^ player_uses_left
-          leaves << {:lvl => lvl, :posn => next_lvl_posn, :name => branch.username, 
-            :gambling => !branch.gamble.nil?, :used_by_player => is_participating_branch && !branch.gamble.nil?}
+          leaves << {lvl: lvl, posn: next_lvl_posn, name: branch.username, gambling: !branch.gamble.nil?, 
+            used_by_player: is_participating_branch && !branch.gamble.nil?, is_leaf: branch.is_leaf?}
           branch_leaves = branch.get_leaves lvl+1, next_lvl_posn
           # Mark the leaves that belong to the branch with which the player is participating in the gamble
           branch_leaves.each { |leaf| leaf[:used_by_player] = is_participating_branch && leaf[:gambling]} if lvl == 2

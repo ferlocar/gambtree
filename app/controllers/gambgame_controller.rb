@@ -57,48 +57,46 @@ class GambgameController < ApplicationController
   end
   
   def self.check_ongoing_gambgame
-    return if @@cheking
-    @@cheking = true
-    
-    while true
-      current_gambgame = Gambgame.find_by ongoing: true
-      if current_gambgame.nil? || (current_gambgame.created_at + 1.days) < Time.now
-        
-        # Finish current gambgame
-        unless current_gambgame.nil?
-          determine_winners
-          current_gambgame.ongoing = false
-          current_gambgame.date_finished = Time.now
-          current_gambgame.prize_paid = current_gambgame.prize
-          current_gambgame.current_players_number = current_gambgame.current_players_number
-          current_gambgame.save
-        end
-        
-        # Start new gambgame
-        Gambgame.create ongoing: true, current_players_number: 0
+    current_gambgame = Gambgame.find_by ongoing: true
+    if current_gambgame.nil? || (current_gambgame.created_at + 1.days) < Time.now
+      
+      # Finish current gambgame
+      unless current_gambgame.nil?
+        determine_winners
+        current_gambgame.ongoing = false
+        current_gambgame.date_finished = Time.now
+        current_gambgame.prize_paid = current_gambgame.prize
+        current_gambgame.players_number = current_gambgame.current_players_number
+        current_gambgame.save
       end
-      sleep 60
+      # Start new gambgame
+      Gambgame.create ongoing: true, current_players_number: 0
     end
   end
   
-  #protected
+  protected
   
   def self.determine_winners
     current_game =  Gambgame.current 
     gambles = current_game.gambles
-    winner_position = RandomGenerator.get_random_int gambles.length - 1
-    winner_gamble = gambles[winner_position]
-    
-    winner_players = [winner_gamble.user] + winner_gamble.user.get_winner_parents
-    winner_players.each do |player|
-      player.gamble.won = true
-      player.coins += current_game.prize
-      player.save
-      player.gamble.save
+    if gambles.length > 0
+      winner_position = RandomGenerator.get_random_int gambles.length - 1
+      winner_gamble = gambles[winner_position]
+      
+      winner_players = [winner_gamble.user] + winner_gamble.user.get_winner_parents
+      winner_players.each do |player|
+        player.gamble.won = true
+        player.coins += current_game.prize
+        player.save
+        player.gamble.save
+      end
+      current_game.awards_won = winner_players.length
+      current_game.winner_gambfruit = winner_gamble.gambfruit
+      current_game.save
+    else
+      current_game.awards_won = 0
+      current_game.save
     end
-    current_game.awards_won = winner_players.length
-    current_game.winner_gambfruit = winner_gamble.gambfruit
-    current_game.save
   end
   
 end

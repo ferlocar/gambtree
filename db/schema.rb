@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140601051925) do
+ActiveRecord::Schema.define(version: 20140610192842) do
 
   create_table "gambfruits", force: true do |t|
     t.string   "color"
@@ -64,26 +64,27 @@ ActiveRecord::Schema.define(version: 20140601051925) do
   create_table "users", force: true do |t|
     t.string   "full_name"
     t.date     "birth_date"
-    t.integer  "seeds",                  default: 30
-    t.integer  "coins",                  default: 0
+    t.integer  "seeds"
+    t.integer  "coins",                   default: 0
     t.integer  "recommender_id"
     t.integer  "parent_id"
     t.integer  "left_branch_id"
     t.integer  "right_branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                   default: "", null: false
+    t.string   "encrypted_password",      default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",           default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "username"
     t.boolean  "is_trunk"
+    t.datetime "last_gambseed_gift_date"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

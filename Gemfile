@@ -41,7 +41,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin]
 # New gems added by me
 gem 'devise'
 gem 'mysql2'
-gem 'whenever', :require => false
 gem 'httparty'
 gem "less-rails" 
 gem 'twitter-bootstrap-rails'

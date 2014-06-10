@@ -1,32 +1,35 @@
 <% gambgame = Gambgame.current %>
 <% last_gambgame = Gambgame.order('created_at DESC').limit(2)[1] %>
-<% winner_gambfruit = last_gambgame.winner_gambfruit %>
-<% winners = last_gambgame.winners.map {|usr| usr.username} %>
 
 <h2>Welcome to Gambtree!</h2>
-<p>Yesterday's winning Gambfruit is:</p>
-<div class="row-fluid"> 
-  <div class="span3 gambfruit_options">
-    <div id="gambfruit">
-      <% fruit = winner_gambfruit.fruit %>
-      <% color = winner_gambfruit.color %>
-      <% number = winner_gambfruit.number %>
-      <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image"%>
-    </div>
-    
-    <div id="seal_container">
-      <%= image_tag "gambfruits/numbers/shield.png", id: "gambfruit_seal"%>
-      <div class="crop tens">
-        <img class="tens_digit num<%=number/10%>" src="/assets/numbers1.png"/>
+
+<% if last_gambgame && last_gambgame.winner_gambfruit %>
+  <% winner_gambfruit = last_gambgame.winner_gambfruit %>
+  <% winners = last_gambgame.winners.map {|usr| usr.username} %>
+  <p>Yesterday's winning Gambfruit is:</p>
+  <div class="row-fluid"> 
+    <div class="span3 gambfruit_options">
+      <div id="gambfruit">
+        <% fruit = winner_gambfruit.fruit %>
+        <% color = winner_gambfruit.color %>
+        <% number = winner_gambfruit.number %>
+        <%= image_tag "gambfruits/#{fruit}/#{fruit}_#{color}.png", title: "Your Gambfruit", alt: "Your Gambfruit", id: "#{color}_#{fruit}", class: "gambfruit_image"%>
       </div>
-      <div class="crop units">
-        <img class="units_digit num<%=number%10%>" src="/assets/numbers1.png"/>
+      
+      <div id="seal_container">
+        <%= image_tag "gambfruits/numbers/shield.png", id: "gambfruit_seal"%>
+        <div class="crop tens">
+          <img class="tens_digit num<%=number/10%>" src="/assets/numbers1.png"/>
+        </div>
+        <div class="crop units">
+          <img class="units_digit num<%=number%10%>" src="/assets/numbers1.png"/>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<p>Each winner was awarded with <strong><%= last_gambgame.prize %> Gambcoins</strong>. 
-  The winners are: <strong><%= winners.to_sentence %></strong>.</p>
+  <p>Each winner was awarded with <strong><%= last_gambgame.prize %> Gambcoins</strong>. 
+    The winners are: <strong><%= winners.to_sentence %></strong>.</p>
+<% end %>
 
 <p> Today's Gambgame already has <strong><%=gambgame.current_players_number%> players</strong>. The winners 
   will be awarded with <strong><%=gambgame.prize%> Gambcoins</strong>, and there can be up to 

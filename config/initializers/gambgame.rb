@@ -1,3 +1,7 @@
 Thread.new do
-  GambgameController.check_ongoing_gambgame
+  loop do
+    puts "Checking if the Gambgame has ended."
+    GambgameController.check_ongoing_gambgame
+    sleep 60
+  end
 end
