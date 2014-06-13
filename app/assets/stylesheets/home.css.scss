@@ -1,0 +1,56 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/* Styles for Pricing Tables */
+.clock-container{
+  text-align: center;
+}
+
+
+.step-container{
+  min-height: 550px;
+  margin-bottom: 50px;
+}
+
+.tutorial-step{
+  border: 1px solid #999;
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #CDF;
+  position: relative;
+  padding-bottom: 65px;
+}
+
+.tutorial-btn{
+  position: absolute;
+  bottom: 20px;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tutorial-join-btn{
+  width: 25%;
+}
+
+.tutorial-txt{
+  line-height: 36px;
+  font-size: 18px;
+}
+
+.tutorial-table{
+  margin-bottom: 20px;
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+tr{
+  border: 1px solid black;  
+}
+
+th{
+  width: 25%;
+}

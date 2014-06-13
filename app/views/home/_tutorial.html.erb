@@ -1,0 +1,120 @@
+<script>
+window.onload = function(){
+  var offset = - 45 - ($(".navbar").css('position') == 'fixed' ? 20 : -30);
+  <% 6.times do |btn_num| %>
+    $("#btn-anim<%= btn_num %>").click(function() {
+      $('html, body').animate({
+          scrollTop: $("#step<%= btn_num + 1 %>").offset().top + offset
+      }, 1500);
+    });
+  <% end %>
+}
+
+</script>
+
+<div class="row-fluid">
+    <div class="span4"></div> 
+    <div class="span4" style="text-align: center">
+      <div class="step-container">
+        <div class="tutorial-step">
+          <h2 class="text-center">Welcome to Gambtree!</h2>
+          
+          <p class="tutorial-txt">Gambtree is a gambling social network. As your network grows, you will have more chances of 
+            winning, and the prizes will be bigger. This is only a prototype, so <strong>you won't have to put any money to 
+              try it out</strong>.</p>
+          <%= button_tag "Tell me more", id: "btn-anim0", class: "btn btn-info btn-large tutorial-btn" %>
+        </div>
+      </div>
+      
+      <div class="step-container">
+        <div id="step1" class="tutorial-step" >
+          <h2 class="text-center">How does it work?</h2>
+          
+          <p class="tutorial-txt">Everyday, a Gambgame will be held. To participate in the Gambgame, you must spend
+            a Gambseed to generate a Gambfruit. At the end of the day, a Gambfruit will be chosen
+            at random. If it belongs to you or to some of the people in your network, you win! <strong>This means there will 
+            always be one or more winners</strong>. </p>
+          <%= button_tag "Tell me more", id: "btn-anim1", class: "btn btn-info btn-large tutorial-btn" %>
+        </div>
+      </div>
+      
+      <div class="step-container">
+        <div id="step2" class="tutorial-step" >
+          <h2 class="text-center">How do I grow my network?</h2>
+          
+          <p class="tutorial-txt">After you join the game, you will have your own Gambtree. Your social network is
+            made of all the people that belong to your Gambtree. Every Gambtree has a left branch and a right branch.
+            People that join the game because of you will become leaves of one of your branches. The leaves of your 
+            leaves will also be your leaves. Every leaf of your Gambtree is part of your social network. </p>
+          <%= button_tag "Tell me more", id: "btn-anim2", class: "btn btn-info btn-large tutorial-btn" %>
+        </div>
+      </div>
+      
+      <div class="step-container">
+        <div id="step3" class="tutorial-step">
+          <h2 class="text-center">How do I win?</h2>
+          
+          <p class="tutorial-txt">You do not participate in the Gambgame with all the Gambfruits in your social network.
+            You participate with your own Gambfruit and all the Gambfruits in your Gambfruit branch. Your Gambfruit branch
+            is the branch in your Gambtree that has the fewest players with a Gambfruit. At the end of the day, a Gambfruit 
+            will be chosen at random. If you were participating with it, you win the prize! <strong>This means that there
+            can be multiple winners</strong>.</p>
+          <%= button_tag "Tell me more", id: "btn-anim3", class: "btn btn-info btn-large tutorial-btn" %>
+        </div>
+      </div>
+
+      <div class="step-container">
+        <div id="step4" class="tutorial-step">
+          <h2 class="text-center">What do I win?</h2>
+          
+          <p class="tutorial-txt">The prize will be given in Gambcoins. Although there isn't any real money in play 
+            yet, if Gambtree shows promise, each Gambcoin will be worth $0.01 in the future. However, <strong>Gambcoins you win now cannot
+            be exchanged for money</strong>. Prizes will also increase when more people join the Gambgame. Click below to check 
+            the prize progression. </p>
+          <%= button_tag "Tell me more", id: "btn-anim4", class: "btn btn-info btn-large tutorial-btn" %>
+        </div>
+      </div>
+      
+      <div class="step-container">
+        <div id="step5" class="tutorial-step">
+          <h2 class="text-center">Prize size</h2>
+          
+          <p class="tutorial-txt">Prize varies depending on the # of players: </p>
+          <table class="tutorial-table">
+            <tr>
+              <th>Players</th>
+              <th>Maximum winners</th>
+              <th>Gambcoin prize</th>
+              <th>$ prize</th>
+            </tr>
+            <% (1..1101).step(100) do |players| %>
+              <% players -= 1 unless players == 1%>
+              <tr>
+                <th><%= players %></th>
+                <th><%= Math.log2(players + 1).floor %></th>
+                <th><%= Gambgame.prize_for_players players %></th>
+                <th>$ <%= number_with_precision (Gambgame.prize_for_players(players)/100.00), precision: 2 %></th>
+              </tr>
+            <%end%>
+          </table>
+          <%= button_tag "Tell me more", id: "btn-anim5", class: "btn btn-info btn-large tutorial-btn" %>
+        </div>
+      </div>
+      
+      <div class="step-container">
+        <div id="step6" class="tutorial-step">
+          <h2 class="text-center">About the money</h2>
+          
+          <p class="tutorial-txt">This is only a prototype, so <strong>there isn't any real money in play</strong>. However, if 
+            Gambtree shows promise, the prizes will be given in real money. If you start your network now, you'll have
+            a big and strong Gambtree by the time real money is in play! Initial fees to buy a Gambseed and
+            participate in a Gambgame will be around $1.00 in the future. The prizes given will be of $0.01 per 
+            Gambcoin. Remember, <strong>any prizes you win now cannot be exchanged for money</strong>.</p>
+  
+          <%= link_to "Got it! Join", new_user_registration_path, class: "btn btn-success btn-large tutorial-btn tutorial-join-btn" %>
+        </div>
+      </div>
+      
+    </div>
+    <div class="span4"/></div>
+</div>
