@@ -66,9 +66,14 @@
             </ul>
             <% end %>
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><%= link_to("My Gamble", gambgame_play_path) %></li>
-              <li><%= link_to("My Gambtree", gambtree_pending_requests_path) %></li>
+              <li class="<%= 'active' if params[:action] == 'index' %>"><%= link_to("Home", home_index_path) %></li>
+              <% if user_signed_in? %>
+              <li class="<%= 'active' if params[:action] == 'play' %>"><%= link_to("My Gamble", gambgame_play_path) %></li>
+              <li class="<%= 'active' if params[:action] == 'pending_requests' %>"><%= link_to("My Gambtree", gambtree_pending_requests_path) %></li>
+              <% end %>
+              <li class="<%= 'active' if params[:action] == 'tutorial' %>"><%= link_to("Tutorial", home_tutorial_path) %></li>
+              <li class="<%= 'active' if params[:action] == 'about' %>"><%= link_to("About", home_about_path) %></li>
+              <li class="<%= 'active' if params[:action] == 'contact' %>"><%= link_to("Contact Us", home_new_message_path) %></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

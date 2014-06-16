@@ -1,0 +1,62 @@
+<h2>Welcome to Gambtree!</h2>
+
+<p>Thank you for joining Gambtree!</p>
+
+<p>Here's a brief explanation about what you need to know to play:</p>
+<br />
+
+<h4>Your Gamble</h4>
+
+<p>A Gambgame will be held everyday. The winners of the Gambgame will be awarded with Gambcoins (<%= image_tag "gambcoin_icon.png", size: "22x22", title: "Gambcoins", alt: "Gambcoins", class: "tutorial-info" %>). At this moment,
+  Gambcoins do not have any monetary value, but if Gambtree shows promise, each Gambcoin will be worth $0.01 in the
+  future. The size of the prize (<%= image_tag "prize_icon.png", size: "24x24", title: "Gambgame prize", alt: "Gambgame prize", class: "tutorial-info" %>) 
+  given to each winner varies depending on the number of players participating in the Gambgame.
+  Below you can see the prize progression according to the number of players (<%= image_tag "players_icon.png", size: "24x24", title: "Gambgame players", alt: "Gambgame players", class: "tutorial-info" %>): </p>
+<br />
+
+<%= render 'prize_table_example' %>
+  
+<p>To participate in a Gambgame, you need to make a gamble. Otherwise, you won't be able to win any prizes. To make 
+  a gamble, you need to spend a Gambseed (<%= image_tag "gambseed_icon.png", size: "22x22", title: "Gambseeds", alt: "Gambseeds", class: "tutorial-info" %>) 
+  to generate a Gambfruit. Gambseeds currently do not have any cost, and will
+  be given to you freely every 15 days. However, in the future they will no longer be free, and will cost around 
+  $1.00. To place your gamble, go to '<%= link_to 'My Gamble', gambgame_play_path %>' in the navigation bar above.</p>
+
+<p>To generate a Gambfruit, you need to choose a type of fruit, a color, and a number for it. Your Gambfruit must be
+  different from any of the other players' Gambfruits. Once you spend the Gambseed and choose a Gambfruit, you will 
+  remain participating in the Gambgame. At the end of the day, a Gambfruit will be chosen at random. If it is yours, you'll be
+  one of the Gambgame winners!</p>
+  
+<p>However, there is another way to become a winner. If the chosen Gambfruit belongs to your Gambfruit branch,
+  you'll win the prize. This is explained in more detail in the following section. </p>  
+<br />
+
+<h4>Your Gambtree</h4>
+
+<p>Every user, including you, has his or her own Gambtree. To check it out, go to '<%= link_to 'My Gambtree', gambtree_pending_requests_path %>' in the navigation 
+  bar above. You'll have higher chances of winning if you have a big Gambtree. To grow your Gambtree, you'll
+  have to add leaves to its branches. A Gambtree has a left and a right branch. When a player joins Gambtree and
+  puts you as his or her recommender (you probably saw the field when you created your account), that player will
+  become a leaf of one of your Gambtree's branches. Additionally, all the leaves of that player will also become
+  leaves of your branch. </p>
+
+<p>After a player puts you as his or her recommender, you'll receive a leaf request. To accept it, you must go to
+  your Gambtree and select the branch to which you wish to attach your new leaf. Then, your player will become a leaf
+  of that particular branch. Leaves can also be automatically attached to your branches when one of your leaves adds
+  leaves to his or her own Gambtree, or when a new user did not give a recommender and therefore was attached randomly
+  to you. </p>
+  
+<p>When you participate in a Gambgame, you do so with the Gambfruit that you chose and all the Gambfruits in your
+  Gambfruit branch (<%= image_tag "gambfruit_icon.png", size: "24x24", title: "Your Gambfruits", alt: "Your Gambfruits", class: "tutorial-info" %>). 
+  Your Gambfruit branch is the branch in your Gambtree that has the fewest amount of players with
+  a Gambfruit of their own. However, you can only participate in the Gambgame if you place a gamble. Otherwise, you
+  won't be able to win any prizes, regardless of whether a Gambfruit in your Gambfruit branch is chosen.</p> 
+  
+<p>For example, let's suppose that your Gambtree has 5 users in its left branch, 
+  2 of which have a Gambfruit, and 4 users in its right branch, 3 of which have a Gambfruit. Then, your Gambfruit 
+  branch would be your left branch, because it only has 2 players with a Gambfruit, which is less than the 3 
+  players with a Gambfruit in the right branch. In this case, you would win if your Gambfruit or the Gambfruit of 
+  any of the players in your left branch is chosen at the end of the day. </p>
+  
+<p>And that's it! You are ready to <%= link_to 'place your gamble', gambgame_play_path %>, 
+  <%= link_to 'check out your Gambtree', gambtree_pending_requests_path %>, and <%= link_to 'tell your friends to join', gambtree_pending_requests_path %>!</p>

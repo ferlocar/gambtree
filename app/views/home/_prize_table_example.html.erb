@@ -1,0 +1,17 @@
+<table class="tutorial-table">
+<tr>
+  <th>Players</th>
+  <th>Maximum winners</th>
+  <th>Gambcoin prize</th>
+  <th>$ prize</th>
+</tr>
+<% (1..1101).step(100) do |players| %>
+  <% players -= 1 unless players == 1%>
+  <tr>
+    <th><%= players %></th>
+    <th><%= Math.log2(players + 1).floor %></th>
+    <th><%= Gambgame.prize_for_players players %></th>
+    <th>$ <%= number_with_precision (Gambgame.prize_for_players(players)/100.00), precision: 2 %></th>
+  </tr>
+<%end%>
+</table>

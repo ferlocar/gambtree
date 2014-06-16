@@ -1,0 +1,28 @@
+<h2>Contact form</h2>
+
+<%= form_for @message, :url => home_create_message_path do |form| %>
+  <fieldset class="fields">
+    <div class="field">
+      <%= form.label 'Username or full name' %>
+      <%= form.text_field :name, value: user_signed_in? ? current_user.username : '' %>
+    </div>
+    
+    <div class="field">
+      <%= form.label :email %>
+      <%= form.text_field :email, value: user_signed_in? ? current_user.email : '' %>
+    </div>
+    <div class="field">
+      <%= form.label :subject %>
+      <%= form.text_field :subject %>
+    </div>
+    
+    <div class="field">
+      <%= form.label :body %>
+      <%= form.text_area :body, rows: 10, class:"span8"%>
+    </div>
+  </fieldset>
+  
+  <fieldset class="actions">
+    <%= form.submit "Send", class: "btn btn-primary" %>
+  </fieldset>
+<% end %>

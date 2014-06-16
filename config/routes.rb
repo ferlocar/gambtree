@@ -18,6 +18,10 @@ Rails.application.routes.draw do
   end
   
   get 'home/index'
+  get 'home/tutorial'
+  get 'home/about'
+  get 'home/new_message'
+  post 'home/create_message'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
