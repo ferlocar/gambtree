@@ -2,8 +2,7 @@
 <% request_num = requests.count%>
 <% left_branch_num = current_user.left_branch ? current_user.left_branch.gambtree.length : 0 %>
 <% right_branch_num = current_user.right_branch ? current_user.right_branch.gambtree.length : 0 %>
-<% gambfruits_num = current_user.participating_gambfruits(true).length %>
-<% gambfruits_num += 1 if current_user.gamble.nil? %>
+<% gambfruits_num = current_user.gambfruit_branch_gambfruits.length + 1 %>
 
 <h2>Welcome to your Gambtree!</h2>
 <p> Your Gambtree has <strong><%= @gambtree.length - 1 %> <%= @gambtree.length - 1 == 1 ? "leaf" : "leaves"%></strong>, 

@@ -83,7 +83,7 @@ class GambgameController < ApplicationController
       winner_position = RandomGenerator.get_random_int gambles.length - 1
       winner_gamble = gambles[winner_position]
       
-      winner_players = [winner_gamble.user] + winner_gamble.user.get_winner_parents
+      winner_players = [winner_gamble.user] + winner_gamble.user.winner_parents
       winner_players.each do |player|
         player.gamble.won = true
         player.coins += current_game.prize

@@ -15,66 +15,24 @@ class User < ActiveRecord::Base
   
   after_create :insert_in_gambtree
   
+  def after_database_authentication
+    if (last_gambseed_gift_date + 15.days) < Time.now
+      self.seeds += 15
+      self.last_gambseed_gift_date = Time.now
+      self.save
+    end
+  end
+  
   def self.trunk
-    @@trunk ||= User.find_by is_trunk: true
+    User.find_by is_trunk: true
   end
   
   def gamble
     gambles.find_by gambgame: Gambgame.current
   end
   
-  def smaller_branch
-    if left_branch && right_branch
-      left_branch.leaf_count <= right_branch.leaf_count ? left_branch : right_branch
-    else
-      nil
-    end
-  end
-  
-  def participates_with_branch? branch
-    return false unless gamble && left_branch && right_branch
-    
-    left_gambfruits = left_branch.gambfruits
-    right_gambfruits = right_branch.gambfruits
-    participating_branch = left_gambfruits.length <= right_gambfruits.length ? left_branch : right_branch
-    branch == participating_branch  
-  end
-  
-  def leaf_count 
-    1 + (left_branch ? left_branch.leaf_count : 0) + (right_branch ? right_branch.leaf_count : 0)
-  end
-  
-  def pending_requests
-    received_requests.where(:resolved => false)
-  end
-  
-  def insert_leaf new_leaf
-    if left_branch.nil?
-      self.left_branch = new_leaf
-      attach_leaf_to_me new_leaf
-    elsif right_branch.nil?
-      self.right_branch = new_leaf
-      attach_leaf_to_me new_leaf
-    else
-      smaller_branch.insert_leaf new_leaf
-    end
-  end
-  
-  def participating_gambfruits calculate_possible_gambfruits=false
-    if gamble
-      gambfruits = [gamble.gambfruit]
-    elsif calculate_possible_gambfruits
-      gambfruits = []
-    else
-      return []
-    end
-    child_gambfruits = []
-    if left_branch && right_branch
-      left_gambfruits = left_branch.gambfruits
-      right_gambfruits = right_branch.gambfruits
-      child_gambfruits = left_gambfruits.length <= right_gambfruits.length ? left_gambfruits : right_gambfruits 
-    end
-    gambfruits + child_gambfruits
+  def is_gambling?
+    !gamble.nil?
   end
   
   def gambfruits
@@ -85,88 +43,114 @@ class User < ActiveRecord::Base
     return gambfruits  
   end
   
-  def get_winner_parents
+  def gambfruit_branch_gambfruits
+    return [] unless left_branch && right_branch
+    left_gambfruits = left_branch.gambfruits
+    right_gambfruits = right_branch.gambfruits
+    left_gambfruits.length <= right_gambfruits.length ? left_gambfruits : right_gambfruits
+  end
+  
+  def participating_gambfruits
+    gamble ? [gamble.gambfruit] + gambfruit_branch_gambfruits : []
+  end
+  
+  def gambfruit_branch
+    return nil unless left_branch && right_branch
+    
+    left_gambfruits = left_branch.gambfruits
+    right_gambfruits = right_branch.gambfruits
+    left_gambfruits.length <= right_gambfruits.length ? left_branch : right_branch  
+  end
+  
+  def participates_with_branch? branch
+    gamble.present? && branch.present? && (branch == gambfruit_branch)
+  end
+  
+  def winner_parents
     winner_parents = []
     unless parent.nil?
       winner_parents << parent if parent.participates_with_branch? self
-      winner_parents += parent.get_winner_parents
+      winner_parents += parent.winner_parents
     end
     return winner_parents
+  end
+  
+  def leaf_count 
+    1 + (left_branch ? left_branch.leaf_count : 0) + (right_branch ? right_branch.leaf_count : 0)
+  end
+  
+  def smaller_branch
+    if left_branch && right_branch
+      left_branch.leaf_count <= right_branch.leaf_count ? left_branch : right_branch
+    else
+      nil
+    end
   end
   
   def is_leaf?
     left_branch.nil? && right_branch.nil?
   end
   
-  def gambtree
-    [{lvl: 1, posn: 0, name: username, gambling:!gamble.nil?, 
-      used_by_player: !gamble.nil?, is_leaf: is_leaf?}] + self.get_leaves(2, 0)
+  def pending_requests
+    received_requests.where(:resolved => false)
   end
   
-  def after_database_authentication
-    if (last_gambseed_gift_date + 15.days) < Time.now
-      self.seeds += 15
-      self.last_gambseed_gift_date = Time.now
+  def add_leaf new_leaf
+    if left_branch && right_branch
+      smaller_branch.add_leaf new_leaf
+    else
+      if left_branch.nil?
+        self.left_branch = new_leaf
+      else
+        self.right_branch = new_leaf
+      end
+      new_leaf.parent = self
+      new_leaf.save
       self.save
     end
   end
   
-  protected
-  
-  def set_default_values
-    seeds = 15
-    last_gambseed_gift_date = Time.now
+  def gambtree_struct lvl, posn, in_gambfruit_branch
+    {lvl: lvl, posn: posn, name: username, gambling: is_gambling?, 
+      used_by_player: in_gambfruit_branch && is_gambling?, is_leaf: is_leaf?}
   end
   
+  def gambtree
+    [gambtree_struct(1,0,is_gambling?)] + gambtree_leaves(2, 0, false)
+  end
+  
+  protected
+  
   def insert_in_gambtree
-    if User.trunk
-      if recommender
-        JoinRequest.create user: self, receiver: recommender, resolved: false
+    if parent.nil?
+      if User.trunk
+        self.is_trunk = false
+        if recommender
+          JoinRequest.create user: self, receiver: recommender, resolved: false
+        else
+          User.trunk.add_leaf self
+        end
       else
-        User.trunk.insert_leaf self
+        self.is_trunk = true
       end
-    else
-      self.is_trunk = true
     end
     self.seeds = 15
     self.last_gambseed_gift_date = Time.now
     self.save
   end
   
-  def attach_leaf_to_me new_leaf
-    new_leaf.parent = self
-    new_leaf.save
-    self.save
-  end
-  
-  def get_leaves lvl, posn
-    if left_branch.nil? && right_branch.nil?
-      return []
-    else
-      if lvl == 2
-        left_gambfruits = left_branch.nil? ? 0 : left_branch.gambfruits.length
-        right_gambfruits = right_branch.nil? ? 0 : right_branch.gambfruits.length
-        player_uses_left = left_gambfruits <= right_gambfruits
+  def gambtree_leaves lvl, posn, in_gambfruit_branch
+    branches = [left_branch, right_branch]
+    leaves = []
+    branches.each do |branch|
+      if branch
+        in_gambfruit_branch = branch == gambfruit_branch if lvl == 2
+        branch_posn = posn + (branch == right_branch ? 1 : 0)
+        leaves << branch.gambtree_struct(lvl, branch_posn, in_gambfruit_branch)
+        leaves += branch.gambtree_leaves lvl+1, branch_posn*2, in_gambfruit_branch
       end
-      branches = [left_branch, right_branch]
-      leaves = []
-      next_lvl_posn = posn * 2;
-      is_left = true
-      branches.each do |branch|
-        if branch
-          next_lvl_posn += 1 unless is_left
-          is_participating_branch = (branch != left_branch) ^ player_uses_left
-          leaves << {lvl: lvl, posn: next_lvl_posn, name: branch.username, gambling: !branch.gamble.nil?, 
-            used_by_player: is_participating_branch && !branch.gamble.nil?, is_leaf: branch.is_leaf?}
-          branch_leaves = branch.get_leaves lvl+1, next_lvl_posn
-          # Mark the leaves that belong to the branch with which the player is participating in the gamble
-          branch_leaves.each { |leaf| leaf[:used_by_player] = is_participating_branch && leaf[:gambling]} if lvl == 2
-          leaves += branch_leaves
-        end
-        is_left = false
-      end
-      return leaves
     end
+    return leaves
   end
   
 end

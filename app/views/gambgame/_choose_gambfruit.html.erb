@@ -4,7 +4,7 @@
   the players' Gambfruits will be chosen at random. If your Gambfruit or 
   one of the Gambfruits in your Gambfruit branch is chosen, you'll win the Gambgame's prize!</p><br />
 
-<% gambfruits = current_user.participating_gambfruits true %>  
+<% gambfruits = current_user.gambfruit_branch_gambfruits %>  
 <p> If you play in today's Gambgame, you'll have 
   <strong><%= gambfruits.length %> other Gambfruit<%= 's' unless 1 == gambfruits.length %></strong> to participate with.  
 </p><br />

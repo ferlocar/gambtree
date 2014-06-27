@@ -20,7 +20,7 @@ class GambtreeController < ApplicationController
         leaf.save
         current_user.save
       else
-        branch.insert_leaf leaf
+        branch.add_leaf leaf
       end
       request.resolved = true
       request.save
