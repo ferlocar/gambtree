@@ -22,7 +22,7 @@ window.onload = function(){
           <p class="tutorial-txt">Gambtree is a gambling social network. As your network grows, you will have more chances of 
             winning, and the prizes will be bigger. This is only a prototype, so <strong>you won't have to put any money to 
               try it out</strong>.</p>
-          <%= button_tag "Tell me more", id: "btn-anim0", class: "btn btn-info btn-large tutorial-btn" %>
+          <%= button_tag "Tell me more", id: "btn-anim0", class: "btn btn-info btn-large" %>
         </div>
       </div>
       
@@ -34,7 +34,7 @@ window.onload = function(){
             a Gambseed to generate a Gambfruit. At the end of the day, a Gambfruit will be chosen
             at random. If it belongs to you or to some of the people in your network, you win! <strong>This means there will 
             always be one or more winners</strong>. </p>
-          <%= button_tag "Tell me more", id: "btn-anim1", class: "btn btn-info btn-large tutorial-btn" %>
+          <%= button_tag "Tell me more", id: "btn-anim1", class: "btn btn-info btn-large" %>
         </div>
       </div>
       
@@ -46,7 +46,7 @@ window.onload = function(){
             made of all the people that belong to your Gambtree. Every Gambtree has a left branch and a right branch.
             People that join the game because of you will become leaves of one of your branches. The leaves of your 
             leaves will also be your leaves. Every leaf of your Gambtree is part of your social network. </p>
-          <%= button_tag "Tell me more", id: "btn-anim2", class: "btn btn-info btn-large tutorial-btn" %>
+          <%= button_tag "Tell me more", id: "btn-anim2", class: "btn btn-info btn-large" %>
         </div>
       </div>
       
@@ -59,7 +59,7 @@ window.onload = function(){
             is the branch in your Gambtree that has the fewest players with a Gambfruit. At the end of the day, a Gambfruit 
             will be chosen at random. If you were participating with it, you win the prize! <strong>This means that there
             can be multiple winners</strong>.</p>
-          <%= button_tag "Tell me more", id: "btn-anim3", class: "btn btn-info btn-large tutorial-btn" %>
+          <%= button_tag "Tell me more", id: "btn-anim3", class: "btn btn-info btn-large" %>
         </div>
       </div>
 
@@ -71,7 +71,7 @@ window.onload = function(){
             yet, if Gambtree shows promise, each Gambcoin will be worth $0.01 in the future. However, <strong>Gambcoins you win now cannot
             be exchanged for money</strong>. Prizes will also increase when more people join the Gambgame. Click below to check 
             the prize progression. </p>
-          <%= button_tag "Tell me more", id: "btn-anim4", class: "btn btn-info btn-large tutorial-btn" %>
+          <%= button_tag "Tell me more", id: "btn-anim4", class: "btn btn-info btn-large" %>
         </div>
       </div>
       
@@ -81,7 +81,7 @@ window.onload = function(){
           
           <p class="tutorial-txt">Prize varies depending on the # of players: </p>
           <%= render 'prize_table_example' %>
-          <%= button_tag "Tell me more", id: "btn-anim5", class: "btn btn-info btn-large tutorial-btn" %>
+          <%= button_tag "Tell me more", id: "btn-anim5", class: "btn btn-info btn-large" %>
         </div>
       </div>
       
@@ -95,7 +95,7 @@ window.onload = function(){
             participate in a Gambgame will be around $1.00 in the future. The prizes given will be of $0.01 per 
             Gambcoin. Remember, <strong>any prizes you win now cannot be exchanged for money</strong>.</p>
   
-          <%= link_to "Got it! Join", new_user_registration_path(recommender: params[:recommender]), class: "btn btn-success btn-large tutorial-btn tutorial-join-btn" %>
+          <%= link_to "Got it! Join", new_user_registration_path(recommender: params[:recommender]), class: "btn btn-success btn-large tutorial-join-btn" %>
         </div>
       </div>
       
