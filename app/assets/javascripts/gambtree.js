@@ -189,5 +189,5 @@ window.onload = function(){
     ctx.stroke();
   } 
   
-  drawBtree(leaves, false);  
+  drawBtree(leaves, showNames);  
 };
