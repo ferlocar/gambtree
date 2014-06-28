@@ -36,7 +36,7 @@ window.onload = function(){
       showBtn.attr('value', "Show names");
   });
   
-  var maxLvlWithName = Math.floor(Math.log2(containerWidth/maxDrawSize));
+  var maxLvlWithName = Math.floor(Math.log(containerWidth/maxDrawSize)/Math.LN2);
   
   function sum(n) {
     if(n <= 1)
