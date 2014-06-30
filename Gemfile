@@ -48,5 +48,6 @@ group :development, :test do
   gem 'factory_girl_rails'
 end
 gem 'rails_12factor', group: :production
+gem 'bootstrap_helper'
 ruby "2.1.2"
 
