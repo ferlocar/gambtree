@@ -85,10 +85,11 @@ class GambgameController < ApplicationController
       
       winner_players = [winner_gamble.user] + winner_gamble.user.winner_parents
       winner_players.each do |player|
-        player.gamble.won = true
+        gamble = player.gamble 
+        gamble.won = true
+        gamble.save
         player.coins += current_game.prize
         player.save
-        player.gamble.save
       end
       current_game.awards_won = winner_players.length
       current_game.winner_gambfruit = winner_gamble.gambfruit
