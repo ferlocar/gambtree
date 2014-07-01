@@ -34,7 +34,7 @@
 <p> Today's Gambgame already has <strong><%=gambgame.current_players_number%> players</strong>. The winners 
   will be awarded with <strong><%=gambgame.prize%> Gambcoins</strong>, and there can be up to 
   <strong>
-    <%= gambgame.current_players_number > 0 ? Math.log2(gambgame.current_players_number).truncate.to_i : 0 %> 
+    <%= gambgame.current_players_number > 0 ? Math.log2(gambgame.current_players_number + 1).truncate.to_i : 0 %> 
     winners</strong>!</p>
 <p> If a new player comes in, the prize will increase in 
   <strong><%=gambgame.prize_increase%> Gambcoins</strong>. The Gambgame will end in: </p><br />

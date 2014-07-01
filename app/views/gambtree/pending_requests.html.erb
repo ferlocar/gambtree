@@ -13,9 +13,9 @@
 <p> You currently have <strong><%= request_num %> pending <%= request_num == 1 ? "leaf" : "leaves"%></strong> to 
   add to your Gambtree.</p>
 <p> To invite your friends to Gambtree, send them this link: <strong><%= home_about_url(recommender: current_user.username)%></strong></p>  
-  <br />
   
 <% if request_num > 0 %>
+<br />
 <p class="text-center">Add <strong><%= requests.first.user.full_name%></strong> as a new leaf of your Gambtree. To which branch do you wish to add your new leaf?</p>
 <div class="row-fluid">
   <div class="span6" style="text-align: center">
@@ -28,30 +28,32 @@
 <br /><br />
 <% end %>
 
-<h4 class="text-center">Check out your Gambtree!</h4><br />
-<script>
-  var leaves = [
-      <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]},name:\"#{leaf[:name]}\",gambling:#{leaf[:gambling]},is_leaf:#{leaf[:is_leaf].to_s},used_by_player:#{leaf[:used_by_player].to_s}}"}.join(", ").html_safe %>
-  ];
-</script>
-<%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
-<div class="row-fluid">
-  <div class="span12">
-    <canvas id="gambtree">
-    </canvas>
-  </div>
-</div><br />
-
-<div style="text-align: center"><%= submit_tag "Show names", id: "show", class: "btn btn-primary btn-large" %></div><br />
-
-<div class="row-fluid">
-  <div class="span4 text-align: center">
-    <div class="text-center regular-leaf">User in your Gambtree</div>
-  </div>
-  <div class="span4 text-align: center">
-    <div class="text-center gambling-leaf">User with a Gambfruit</div>
-  </div>
-  <div class="span4 text-align: center">
-    <div class="text-center participating-leaf">User in Gambfruit branch</div>
+<div class="gambtree-selector">
+  <h4 class="text-center">Check out your Gambtree!</h4>
+  <script>
+    var leaves = [
+        <%= @gambtree.map{|leaf| "{lvl:#{leaf[:lvl]},posn:#{leaf[:posn]},name:\"#{leaf[:name]}\",gambling:#{leaf[:gambling]},is_leaf:#{leaf[:is_leaf].to_s},used_by_player:#{leaf[:used_by_player].to_s}}"}.join(", ").html_safe %>
+    ];
+  </script>
+  <%= javascript_include_tag '/assets/gambtree', 'data-turbolinks-track' => true %>
+  <div class="row-fluid">
+    <div class="span12">
+      <canvas id="gambtree">
+      </canvas>
+    </div>
+  </div><br />
+  
+  <div style="text-align: center"><%= submit_tag "Show names", id: "show", class: "btn btn-primary btn-large" %></div><br />
+  
+  <div class="row-fluid">
+    <div class="span4 text-align: center">
+      <div class="text-center regular-leaf">User in your Gambtree</div>
+    </div>
+    <div class="span4 text-align: center">
+      <div class="text-center gambling-leaf">User with a Gambfruit</div>
+    </div>
+    <div class="span4 text-align: center">
+      <div class="text-center participating-leaf">User in Gambfruit branch</div>
+    </div>
   </div>
 </div>

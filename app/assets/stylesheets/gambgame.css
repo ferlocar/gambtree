@@ -44,11 +44,16 @@
 	right: -22px;
 }
 
+.gambfruit-selector{
+	margin-top: 15px;
+}
+
 #gambfruit{
 	text-align: center;
 }
 #seal_container{
 	text-align: center;
+	margin-bottom: -30px;
 }
 #gambfruit_seal {
 	height: 80px;

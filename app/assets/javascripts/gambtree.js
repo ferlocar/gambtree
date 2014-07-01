@@ -20,7 +20,7 @@ window.onload = function(){
   var drawSize = Math.min(hUnit,maxDrawSize);
   
   var vUnitSize = maxLvl == 1 ? 1 : sum(maxLvl-1);
-  var containerHeight = containerWidth/2;
+  var containerHeight = containerWidth/3;
   var vUnit = (containerHeight-drawSize)/vUnitSize;
   
   canvas.width = containerWidth;
