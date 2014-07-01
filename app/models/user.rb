@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :received_requests, :class_name => 'JoinRequest', :foreign_key => "receiver_id"
   has_many :gambles
   
+  before_create :downcase_fields
   after_create :insert_in_gambtree
   
   def after_database_authentication
@@ -151,6 +152,12 @@ class User < ActiveRecord::Base
       end
     end
     return leaves
+  end
+  
+  private
+  
+  def downcase_fields
+    self.username.downcase!
   end
   
 end
