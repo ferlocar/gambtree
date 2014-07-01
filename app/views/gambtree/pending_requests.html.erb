@@ -12,7 +12,7 @@
   <strong><%= gambfruits_num %> Gambfruit<%= "s" if gambfruits_num > 0 %></strong>.
   You currently have <strong><%= request_num %> pending <%= request_num == 1 ? "leaf" : "leaves"%></strong> to 
   add to your Gambtree.</p>
-<p> To invite your friends to Gambtree, send them this link: <strong><%= home_about_url(recommender: current_user.username)%></strong></p>  
+<p> To invite your friends to Gambtree, send them this link: <strong><%= root_url(recommender: current_user.username)%></strong></p>  
   
 <% if request_num > 0 %>
 <br />

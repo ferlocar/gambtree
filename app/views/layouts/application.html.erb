@@ -61,7 +61,7 @@
             </p>
             <% else %>
             <ul class="nav pull-right">
-              <li><%= link_to "Create Account", new_user_registration_path %></li>
+              <li><%= link_to "Create Account", new_user_registration_path(recommender: params[:recommender]) %></li>
               <li><%= link_to "Sign In", new_user_session_path, class: "btn btn-primary nav-custom-btn" %></li>
             </ul>
             <% end %>
