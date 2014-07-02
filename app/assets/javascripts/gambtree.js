@@ -9,6 +9,7 @@ window.onload = function(){
   var ctx = canvas.getContext("2d");
   var nodes = [];
   var maxDrawSize = 100;
+  var big_width = $(window).width() >= 768;
           
   leaves.sort(function(a, b) {
     // Sort descending by level 
@@ -17,10 +18,10 @@ window.onload = function(){
   var maxLvl = leaves[0].lvl;
   var containerWidth = $("#gambtree").parent().width();
   var hUnit = containerWidth/Math.pow(2, maxLvl - 1);
-  var drawSize = Math.min(hUnit,maxDrawSize);
+  var drawSize = Math.min(hUnit/(big_width ? 1.5 : 1),maxDrawSize);
   
   var vUnitSize = maxLvl == 1 ? 1 : sum(maxLvl-1);
-  var containerHeight = containerWidth/3;
+  var containerHeight = containerWidth/(big_width ? 3 : 2);
   var vUnit = (containerHeight-drawSize)/vUnitSize;
   
   canvas.width = containerWidth;
