@@ -69,7 +69,8 @@
               <li class="<%= 'active' if params[:action] == 'index' %>"><%= link_to("Home", home_index_path) %></li>
               <% if user_signed_in? %>
               <li class="<%= 'active' if params[:action] == 'play' %>"><%= link_to("My Gamble", gambgame_play_path) %></li>
-              <li class="<%= 'active' if params[:action] == 'pending_requests' %>"><%= link_to("My Gambtree", gambtree_pending_requests_path) %></li>
+              <% req_num = current_user.pending_requests.count %>
+              <li class="<%= 'active' if params[:action] == 'pending_requests' %>"><%= link_to("My Gambtree#{req_num > 0 ? " (#{req_num})" : ''}", gambtree_pending_requests_path) %></li>
               <% end %>
               <li class="<%= 'active' if params[:action] == 'tutorial' %>"><%= link_to("Tutorial", home_tutorial_path) %></li>
               <li class="<%= 'active' if params[:action] == 'about' %>"><%= link_to("About", home_about_path) %></li>
