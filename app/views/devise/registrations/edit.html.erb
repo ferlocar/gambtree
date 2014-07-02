@@ -11,7 +11,7 @@
   <div><%= f.label :email %>
   <%= f.email_field :email, autofocus: true %></div>
   
-  <div><%= f.label :birthday %>
+  <div><%= f.label "Birthday (dd-mm-yyyy)" %>
   <%= f.text_field :birth_date, 'data-behaviour' => 'datepicker', :class => "datepicker" %></div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
