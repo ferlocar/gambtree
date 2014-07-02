@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  validates :birth_date, :full_name, :username, presence: true       
+  validates :birth_date, :full_name, :username, presence: true
+  validates :username, format: { message: 'You can only put letters or numbers in your username.', with: /\A[a-zA-Z0-9]+\Z/ }       
   
   belongs_to :recommender, :class_name => 'User' 
   belongs_to :parent, :class_name => 'User'
